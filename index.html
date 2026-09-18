@@ -370,35 +370,35 @@
             "Forced humiliation speech check"
         ];
 
-        // Logical Progression Pools per Stage (Tracks used items so they never repeat until the pool resets)
+        // Evil, Non-Repeating Mistress Action Pools (Strictly Dom-to-Sub: Mistress is in full control)
         const mistressActionPools = {
             0: [
-                "Spit directly onto the sub's face or chest.",
-                "Deliver 2 firm slaps across the face or thighs.",
-                "Force the sub to hold your spit in their mouth without swallowing for 30 seconds.",
-                "Grab and tightly squeeze or choke the throat."
+                "Mistress spits directly onto the sub's face or chest as a reminder of their status.",
+                "Mistress delivers 2 sharp slaps across the sub's face or thighs.",
+                "Mistress takes a mouthful of her own saliva, leans down, and forces the sub to receive it directly.",
+                "Mistress wraps a hand around the sub's throat and squeezes tightly while maintaining slow strokes."
             ],
             1: [
-                "Spit directly into the sub's open mouth.",
-                "Deliver hard slaps and aggressive impact play.",
-                "Spit into your own mouth, lean down, and pass it back into the sub's mouth.",
-                "Choke hard while the Mistress takes over full stroking control."
+                "Mistress spits directly into the sub's open mouth and forces them to swallow it immediately.",
+                "Mistress delivers heavy face slaps and aggressive impact play to spike the sub's adrenaline.",
+                "Mistress holds her spit in her mouth, pulls away, and spits a second load back onto the sub's face.",
+                "Mistress chokes the sub hard with one hand while punishing the pace with the other."
             ],
             2: [
-                "Force the sub to taste their own pre-cum off your fingers.",
-                "Catch pre-cum or dribble in a glass or spoon and feed it straight back to them.",
-                "Spit in a glass, mix it with pre-cum, and make them drink it.",
-                "Force a messy deepthroat right at the peak of an edge under strict Mistress pacing."
+                "Mistress pinches off the sub's pre-cum, smears it on her fingers, and forces the sub to lick it clean.",
+                "Mistress catches pre-cum or dribble in a glass or spoon and forces the sub to drink it down.",
+                "Mistress spits into a glass, mixes it with any pre-cum leakage, and commands the sub to chug it.",
+                "Mistress forces a cruel, sudden deepthroat right at the absolute peak of an edge."
             ],
             3: [
-                "Humiliating taste test: feed them their own mixed fluids before release or denial.",
-                "Spit one final time onto them to seal the session.",
-                "Heavy face slaps and choking right before the final ruling.",
-                "Command them to lick clean any mess entirely from the Mistress's hands."
+                "Mistress prepares a humiliating fluid mix in a glass and forces the sub to drink it as the final test.",
+                "Mistress delivers one final heavy, degrading slap and spits onto the sub to seal the session.",
+                "Mistress grips the sub's throat to the edge of suffocation right before delivering the final ruling.",
+                "Mistress commands the sub to get on their hands and knees and lick clean every trace of mess."
             ]
         };
 
-        // Session Memory Tracker for Mistress Actions (Prevents repeats within the same run)
+        // Session Memory Tracker for Mistress Actions (Ensures no repetition until the pool is exhausted)
         let usedMistressActions = {
             0: [],
             1: [],
@@ -478,24 +478,24 @@
         let loggedEdges = 0;
 
         const actionSequence = [
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes managed by Mistress.", duration: 45, bpm: 35, instructions: "Mistress strokes: Match pace with the bar." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "HALT! Absolute stillness. Mistress holding shaft still.", duration: 25, bpm: 0, instructions: "Freeze completely. Do not move." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress resumes ultra-slow gliding strokes.", duration: 45, bpm: 40, instructions: "Mistress controls the friction." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Mistress hand resting on top.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress sets medium steady pace. Building heat.", duration: 60, bpm: 75, instructions: "Steady mid-speed friction by Mistress." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress handles all stroking with slow, agonizingly long friction.", duration: 45, bpm: 35, instructions: "Mistress controls the pace." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "HALT! Mistress locks shaft completely still. Absolute stillness.", duration: 25, bpm: 0, instructions: "Sub must not move a muscle." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress resumes ultra-slow gliding strokes.", duration: 45, bpm: 40, instructions: "Torturous slow friction by Mistress." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Brief stop. Mistress rests her hand heavy on top.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress sets a steady, medium-speed rhythm building heat.", duration: 60, bpm: 75, instructions: "Controlled stroking by Mistress." },
 
-            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress picks up the speed. Firm, rhythmic friction.", duration: 40, bpm: 100, instructions: "Consistent faster tempo by Mistress." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Mistress locks hand in place.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Fast short burst of speed by Mistress—then instant stop!", duration: 15, bpm: 135, instructions: "Rapid bursts on the bar!" },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress slows down immediately. Torturous, dragging strokes.", duration: 50, bpm: 35, instructions: "Drop back to agonizing slow." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress maintains rhythmic mid-speed stroking.", duration: 50, bpm: 80, instructions: "Stay controlled." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress holds shaft completely still. Let the urge spike.", duration: 20, bpm: 0, instructions: "No motion allowed." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress accelerates to a firm, aggressive rhythm.", duration: 40, bpm: 100, instructions: "Faster tempo driven entirely by Mistress." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Mistress locks her hand in place.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress delivers a fast, short burst of speed—then an instant dead stop!", duration: 15, bpm: 135, instructions: "Intense rapid bursts!" },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress drops back immediately to agonizingly slow, dragging strokes.", duration: 50, bpm: 35, instructions: "Cruel slow down." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress maintains a strict, rhythmic mid-speed stroke.", duration: 50, bpm: 80, instructions: "Stay locked in." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress freezes the motion entirely to let the frustration spike.", duration: 20, bpm: 0, instructions: "No motion allowed." },
 
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Mistress drives fast, aggressive strokes right to the brink!", duration: 35, bpm: 130, instructions: "Hard, fast rhythm by Mistress!" },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Mistress locks you right at the edge!", duration: 25, bpm: 0, instructions: "Hold the edge under Mistress control." },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after edge. Mistress teases drop.", duration: 35, bpm: 30, instructions: "Barely touching to survive." },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops by Mistress!", duration: 25, bpm: 150, instructions: "Intense peak tempo." },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE BUILD. Mistress pushes hard to your limit.", duration: 40, bpm: 140, instructions: "Comply with rule requirements." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Mistress drives fast, punishing strokes right to the absolute brink!", duration: 35, bpm: 130, instructions: "Hard, fast rhythm by Mistress!" },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Mistress forces you to freeze right on the edge!", duration: 25, bpm: 0, instructions: "Hold the edge under strict Mistress control." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Mistress teases the drop.", duration: 35, bpm: 30, instructions: "Barely touching to survive." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Mistress unleashes rapid-fire fast bursts with sudden dead stops!", duration: 25, bpm: 150, instructions: "Intense peak tempo." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE BUILD. Mistress pushes hard to your absolute limit.", duration: 40, bpm: 140, instructions: "Comply with rule requirements." },
 
             { section: 3, stageName: "Stage 4: Final Decree", text: "Session finale. Awaiting final ruling execution.", duration: 15, bpm: 0, instructions: "Execution phase." }
         ];
@@ -666,22 +666,19 @@
             loadAction(nextIndex);
         }
 
-        // Logical Mistress Action Selector with State Memory (No repeats until pool resets)
+        // Mistress Action Selector: Non-repeating, strictly Dom-to-Sub logic
         function triggerMistressAction() {
             const fullPool = mistressActionPools[currentSectionId] || mistressActionPools[0];
             let usedList = usedMistressActions[currentSectionId];
 
-            // If all items in this stage have been used, reset the tracker for this stage
             if (usedList.length >= fullPool.length) {
                 usedMistressActions[currentSectionId] = [];
                 usedList = usedMistressActions[currentSectionId];
             }
 
-            // Filter available items not yet used in this session
             let availableItems = fullPool.filter(item => !usedList.includes(item));
             let selectedPrompt = getRandomItem(availableItems);
 
-            // Mark as used
             usedMistressActions[currentSectionId].push(selectedPrompt);
 
             alert(`MISTRESS ACTION (Stage ${currentSectionId + 1}):\n\n${selectedPrompt}`);
