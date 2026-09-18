@@ -276,7 +276,7 @@
         
         <!-- SETUP PHASE -->
         <div id="game-intro">
-            <p>Ready to let fate dictate the session? Take the pressure off and let the rules handle the rest.</p>
+            <p>Ready to let fate dictate the session? Hand over your control to the Mistress, accept your lower place, and serve her absolute pleasure.</p>
             <button onclick="startSequence()">Let's Play</button>
         </div>
 
@@ -343,62 +343,62 @@
 
     <script>
         const subAttirePool = [
-            "Fully strapped / leather harness", 
-            "Completely bare / vulnerable", 
-            "Locked tight in chastity", 
-            "Collared, chained, and restrained"
+            "Forced on hands and knees like a pathetic pet, completely bare, restrained, and exposed to her whim", 
+            "Strapped down, utterly helpless, and designated solely as the Mistress's disposable flesh toy", 
+            "Collared tightly, chained to the floor, and stripped of all personal identity and human dignity", 
+            "Bent over furniture, position locked by force, waiting passively to be used and degraded"
         ];
 
-        const domActionsPool = [
-            "Choke the sub hard", 
-            "Forced deepthroat task", 
-            "Spit directly on the sub", 
-            "Slap & aggressive impact play"
+        const mistressActionsPool = [
+            "Forced brutal deepthroat and total oral degradation command", 
+            "Spitting thick saliva directly into the sub's mouth and throat as a marker of absolute ownership", 
+            "Violent slaps, hair-pulling, and aggressive impact torture", 
+            "Forced humiliating worship and pathetic verbal submission checks"
         ];
 
         const step3Pool = [
-            "Allowed 1 full, messy orgasm", 
-            "Strictly ruined & denied completely", 
-            "Edge-fed only (permitted right at the final second)", 
-            "Edged 3 times in a row, then permitted"
+            "Allowed 1 full, messy orgasm delivered only when she permits", 
+            "Strictly ruined & denied completely—you cum empty and frustrated while she scorns you", 
+            "Edge-fed only (permitted right at the final second after maximum psychological torture)", 
+            "Edged 3 times in a row while being brutally degraded, then permitted"
         ];
 
         const specialGameElementPool = [
-            "Mandatory absolute stillness command during peak intensity", 
-            "Forced sudden oral break mid-stroke", 
-            "Immediate pain play punishment trigger", 
-            "Forced humiliation speech check"
+            "Mandatory absolute stillness command while she punishes or uses your body", 
+            "Forced sudden choking or oral break mid-stroke to test your breaking point", 
+            "Immediate humiliation penalty trigger for any unauthorized twitch or sound", 
+            "Forced verbal worship of her supreme superiority while she controls every inch"
         ];
 
-        // Evil, Non-Repeating Mistress Action Pools (Strictly Dom-to-Sub: Mistress is in full control)
+        // Explicit, Heavily Up-Antied Degrading Mistress Action Pools (Mistress to Sub)
         const mistressActionPools = {
             0: [
-                "Mistress spits directly onto the sub's face or chest as a reminder of their status.",
-                "Mistress delivers 2 sharp slaps across the sub's face or thighs.",
-                "Mistress takes a mouthful of her own saliva, leans down, and forces the sub to receive it directly.",
-                "Mistress wraps a hand around the sub's throat and squeezes tightly while maintaining slow strokes."
+                "Mistress spits a thick wad of saliva straight into your open mouth and forces you to choke it down instantly.",
+                "Mistress delivers two sharp, stinging slaps across your face to remind you of your absolute worthlessness.",
+                "Mistress grabs a fistful of your hair, violently jerks your head back, and forces you to stare up at her dominion.",
+                "Mistress wraps a heavy, crushing hand around your throat, squeezing until you gasp for permission to breathe."
             ],
             1: [
-                "Mistress spits directly into the sub's open mouth and forces them to swallow it immediately.",
-                "Mistress delivers heavy face slaps and aggressive impact play to spike the sub's adrenaline.",
-                "Mistress holds her spit in her mouth, pulls away, and spits a second load back onto the sub's face.",
-                "Mistress chokes the sub hard with one hand while punishing the pace with the other."
+                "Mistress forces your jaw open wide, gathers a heavy mouthful of spit, drops it onto your tongue, and orders you to lick it clean.",
+                "Mistress inflicts severe impact torture across your body, combining heavy slaps and humiliating insults to shatter your ego.",
+                "Mistress forces you to chant 'I am a pathetic, worthless toy' while she dictates every agonizing stroke.",
+                "Mistress chokes you to the edge of blacking out with one hand while punishing your pace with the other."
             ],
             2: [
-                "Mistress pinches off the sub's pre-cum, smears it on her fingers, and forces the sub to lick it clean.",
-                "Mistress catches pre-cum or dribble in a glass or spoon and forces the sub to drink it down.",
-                "Mistress spits into a glass, mixes it with any pre-cum leakage, and commands the sub to chug it.",
-                "Mistress forces a cruel, sudden deepthroat right at the absolute peak of an edge."
+                "Mistress pinches your leaking pre-cum, smears it across your face and eyes, and commands you to wear it as her mark.",
+                "Mistress forces a cruel, violent deepthroat right at the absolute peak of your frustration build, ignoring your gagging.",
+                "Mistress spits into a dirty glass, mixes it with your leakage and sweat, and forces you to chug it down as punishment.",
+                "Mistress forces you down onto all fours, treating your body entirely as a filthy object for her amusement."
             ],
             3: [
-                "Mistress prepares a humiliating fluid mix in a glass and forces the sub to drink it as the final test.",
-                "Mistress delivers one final heavy, degrading slap and spits onto the sub to seal the session.",
-                "Mistress grips the sub's throat to the edge of suffocation right before delivering the final ruling.",
-                "Mistress commands the sub to get on their hands and knees and lick clean every trace of mess."
+                "Mistress prepares a vile, degrading fluid mix and forces you to swallow it as the ultimate final test of submission.",
+                "Mistress delivers one final humiliating strike and spits directly into your eyes to seal your complete degradation.",
+                "Mistress grips your throat to the brink of suffocation right before executing her final decree.",
+                "Mistress commands you to get on your stomach and lick clean every single trace of mess from her feet and skin."
             ]
         };
 
-        // Session Memory Tracker for Mistress Actions (Ensures no repetition until the pool is exhausted)
+        // Session Memory Tracker for Mistress Actions (Ensures no repetition until pool resets)
         let usedMistressActions = {
             0: [],
             1: [],
@@ -425,19 +425,19 @@
             const btn = document.getElementById('action-btn');
 
             if (currentStep === 0) {
-                instruction.textContent = "Mistress, step up first. Tap to see what your sub must wear:";
-                btn.textContent = "Roll Sub's Attire";
+                instruction.textContent = "Sub's degradation setup: Tap to see how completely your dignity is stripped away:";
+                btn.textContent = "Roll Sub's Placement";
             } else if (currentStep === 1) {
-                instruction.textContent = "Sub's turn to tap. Let's see what the Mistress is permitted to inflict:";
+                instruction.textContent = "Mistress's turn to roll. Let's see what sadistic degradation she will inflict:";
                 btn.textContent = "Roll Mistress Action";
             } else if (currentStep === 2) {
-                instruction.textContent = "Third roll: Setting the final decree and limits:";
+                instruction.textContent = "Third roll: Setting the final decree and humiliation rules:";
                 btn.textContent = "Roll Session Decree";
             } else if (currentStep === 3) {
-                instruction.textContent = "Final roll: Unlocking the special game element for the session:";
+                instruction.textContent = "Final roll: Unlocking the special psychological game element:";
                 btn.textContent = "Roll Special Element";
             } else {
-                instruction.textContent = "Rules locked in. Ready to submit?";
+                instruction.textContent = "Rules locked in. Accept your lower place and submit to the Mistress.";
                 btn.textContent = "Launch Cock Hero Engine";
                 btn.onclick = launchMainEvent;
             }
@@ -452,9 +452,9 @@
 
             if (currentStep === 0) {
                 sessionResults.subAttire = getRandomItem(subAttirePool);
-                logDiv.innerHTML = `<p><strong>Sub Attire:</strong> ${sessionResults.subAttire}</p>`;
+                logDiv.innerHTML = `<p><strong>Sub Placement:</strong> ${sessionResults.subAttire}</p>`;
             } else if (currentStep === 1) {
-                sessionResults.domAction = getRandomItem(domActionsPool);
+                sessionResults.domAction = getRandomItem(mistressActionsPool);
                 logDiv.innerHTML += `<p><strong>Mistress Action:</strong> ${sessionResults.domAction}</p>`;
             } else if (currentStep === 2) {
                 sessionResults.step3Result = getRandomItem(step3Pool);
@@ -478,22 +478,22 @@
         let loggedEdges = 0;
 
         const actionSequence = [
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress handles all stroking with slow, agonizingly long friction.", duration: 45, bpm: 35, instructions: "Mistress controls the pace." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "HALT! Mistress locks shaft completely still. Absolute stillness.", duration: 25, bpm: 0, instructions: "Sub must not move a muscle." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress resumes ultra-slow gliding strokes.", duration: 45, bpm: 40, instructions: "Torturous slow friction by Mistress." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Brief stop. Mistress rests her hand heavy on top.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress sets a steady, medium-speed rhythm building heat.", duration: 60, bpm: 75, instructions: "Controlled stroking by Mistress." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress controls all stroking with slow, agonizingly humiliating friction.", duration: 45, bpm: 35, instructions: "Endure every slow, torturous inch under her control." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "HALT! Mistress locks you completely still. Absolute submission required.", duration: 25, bpm: 0, instructions: "Do not twitch, breathe hard, or move a muscle." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress resumes ultra-slow, mocking gliding friction.", duration: 45, bpm: 40, instructions: "Surrender to the slow torture." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Brief stop. Mistress rests her heel or heavy hand on top.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress sets a steady, medium-speed rhythm designed to build false hope.", duration: 60, bpm: 75, instructions: "Serve her pacing blindly." },
 
-            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress accelerates to a firm, aggressive rhythm.", duration: 40, bpm: 100, instructions: "Faster tempo driven entirely by Mistress." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Mistress locks her hand in place.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress delivers a fast, short burst of speed—then an instant dead stop!", duration: 15, bpm: 135, instructions: "Intense rapid bursts!" },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress accelerates into a firm, aggressive, punishing rhythm.", duration: 40, bpm: 100, instructions: "Faster tempo driven entirely by her amusement." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Mistress locks her grip in place, demanding absolute obedience.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress delivers a fast, cruel short burst of speed—then an instant dead stop!", duration: 15, bpm: 135, instructions: "Intense rapid bursts!" },
             { section: 1, stageName: "Stage 2: Escalation", text: "Mistress drops back immediately to agonizingly slow, dragging strokes.", duration: 50, bpm: 35, instructions: "Cruel slow down." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress maintains a strict, rhythmic mid-speed stroke.", duration: 50, bpm: 80, instructions: "Stay locked in." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress freezes the motion entirely to let the frustration spike.", duration: 20, bpm: 0, instructions: "No motion allowed." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress maintains a strict, rhythmic mid-speed stroke, treating you like furniture.", duration: 50, bpm: 80, instructions: "Stay locked in." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress freezes the motion entirely to let your frustration and desperation peak.", duration: 20, bpm: 0, instructions: "No motion allowed." },
 
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Mistress drives fast, punishing strokes right to the absolute brink!", duration: 35, bpm: 130, instructions: "Hard, fast rhythm by Mistress!" },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Mistress forces you to freeze right on the edge!", duration: 25, bpm: 0, instructions: "Hold the edge under strict Mistress control." },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Mistress teases the drop.", duration: 35, bpm: 30, instructions: "Barely touching to survive." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Mistress drives fast, punishing strokes right to the absolute brink!", duration: 35, bpm: 130, instructions: "Hard, fast rhythm dictated entirely by Mistress!" },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Mistress forces you to freeze right on the edge of ruin!", duration: 25, bpm: 0, instructions: "Hold the edge under strict Mistress dominance." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Mistress teases your impending misery.", duration: 35, bpm: 30, instructions: "Barely touching to survive." },
             { section: 2, stageName: "Stage 3: Peak & Edging", text: "Mistress unleashes rapid-fire fast bursts with sudden dead stops!", duration: 25, bpm: 150, instructions: "Intense peak tempo." },
             { section: 2, stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE BUILD. Mistress pushes hard to your absolute limit.", duration: 40, bpm: 140, instructions: "Comply with rule requirements." },
 
@@ -520,7 +520,7 @@
         function updateTaskBoxText() {
             let edgeStatus = requiredEdgeCount > 0 ? `<br><strong>Edge Requirement:</strong> ${loggedEdges}/${requiredEdgeCount} completed` : "";
             document.getElementById('task-text').innerHTML = 
-                `<strong>Attire:</strong> ${sessionResults.subAttire}<br>` +
+                `<strong>Sub Placement:</strong> ${sessionResults.subAttire}<br>` +
                 `<strong>Permitted Action:</strong> ${sessionResults.domAction}<br>` +
                 `<strong>Special Directive:</strong> ${sessionResults.specialElement}` +
                 edgeStatus;
@@ -537,7 +537,7 @@
             loggedEdges++;
             updateTaskBoxText();
             if (loggedEdges >= requiredEdgeCount) {
-                alert("Edge requirement fulfilled. Awaiting final decree execution.");
+                alert("Edge requirement fulfilled. Awaiting final decree execution by Mistress.");
             }
         }
 
@@ -614,7 +614,7 @@
             if (bpm <= 0) {
                 vertBar.style.transition = 'none';
                 vertBar.style.height = '0%';
-                tempoLabel.textContent = "TEMPO: FREEZE";
+                tempoLabel.textContent = "TEMPO: FREEZE / SUBMIT";
                 return;
             }
 
@@ -666,7 +666,7 @@
             loadAction(nextIndex);
         }
 
-        // Mistress Action Selector: Non-repeating, strictly Dom-to-Sub logic
+        // Mistress Action Selector: Non-repeating, explicit degrading logic (Mistress to Sub)
         function triggerMistressAction() {
             const fullPool = mistressActionPools[currentSectionId] || mistressActionPools[0];
             let usedList = usedMistressActions[currentSectionId];
@@ -695,7 +695,7 @@
                 <h3 class="prompt-title" style="color: var(--accent-pink);">Session Complete</h3>
                 <p>Final Ruling: <strong>${sessionResults.step3Result}</strong></p>
                 <p><em>Edge Check:</em> Completed ${loggedEdges} of ${requiredEdgeCount} required edges.</p>
-                <p><em>Accidental spillage note:</em> Tough luck—it is entirely up to the Mistress whether it is ignored or punished.</p>
+                <p><em>Outcome note:</em> You served your purpose as her disposable toy—remain frozen in position until she dismisses you.</p>
                 <p style="margin-top: 15px;">Execute final protocol.</p>
                 <button onclick="location.reload()">Start New Session</button>
             `;
