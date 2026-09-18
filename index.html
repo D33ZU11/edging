@@ -21,7 +21,7 @@
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            width: 550px;
+            width: 580px;
             text-align: center;
         }
         button {
@@ -73,17 +73,19 @@
         }
         /* Main Event UI Styles */
         .command-display {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
             color: #ff7597;
             margin: 15px 0;
-            height: 50px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: #121212;
             border-radius: 4px;
             border: 1px solid #333;
+            padding: 0 10px;
+            text-align: center;
         }
         .task-alert-box {
             background: #3c1f1f;
@@ -92,7 +94,8 @@
             padding: 10px;
             border-radius: 4px;
             margin: 15px 0;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            text-align: left;
         }
         .meter-container {
             width: 100%;
@@ -144,7 +147,8 @@
             
             <!-- Automated or Triggered Roulette Tasks -->
             <div class="task-alert-box" id="active-task-box">
-                <strong>Active Rule:</strong> <span id="task-text">None currently injected.</span>
+                <strong>Active Rule & Directive:</strong><br>
+                <span id="task-text">Awaiting phase triggers...</span>
             </div>
             
             <div class="meter-container">
@@ -228,7 +232,7 @@
         }
 
         function getRandomItem(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
+            return arr[Math.floor(Math.random() .length)] || arr[Math.floor(Math.random() * arr.length)];
         }
 
         function nextStep() {
@@ -252,31 +256,47 @@
             updateStepPrompt();
         }
 
-        // --- 10-MINUTE MAIN EVENT ENGINE ---
+        // --- 10-MINUTE STRUCTURED STROKING ENGINE ---
         let currentStageIndex = 0;
         let stageTimer;
         let stageSecondsLeft = 0;
         let stageTotalSeconds = 0;
 
-        // Stage configurations spanning roughly 10 minutes total
         const stages = [
             {
-                name: "Stage 1: Warm-Up",
-                duration: 180, // 3 mins
-                instructions: "Slow, steady conditioning. Establish rhythm. Sub attire must be worn.",
-                commands: ["SLOW STROKE", "LIGHT TOUCH", "BUILD RHYTHM", "HOLD"]
+                name: "Stage 1: Warm-Up (Conditioning)",
+                duration: 180, // 3 minutes
+                instructions: "Get accustomed to the attire. Slow, deliberate friction to warm the body up.",
+                commands: [
+                    "SLOW LIGHT STROKES", 
+                    "BUILD GENTLE RHYTHM", 
+                    "STAY RELAXED", 
+                    "ESTABLISH BASELINE"
+                ]
             },
             {
-                name: "Stage 2: Build & Pace",
-                duration: 240, // 4 mins
-                instructions: "Increase pace. Introduce active Mistress interactions as prompted.",
-                commands: ["STEADY STROKE", "FASTER", "SPEED UP", "SLOW DOWN", "EDGE PREP"]
+                name: "Stage 2: Build & Pace (Escalation)",
+                duration: 240, // 4 minutes
+                instructions: "Increase the tempo. Active Mistress action integration begins now.",
+                commands: [
+                    "STEADY RHYTHMIC STROKING", 
+                    "BUILD THE PRESSURE", 
+                    "PICK UP THE PACE", 
+                    "CONTROLLED BREATHING", 
+                    "DECREE CHECK INCOMING"
+                ]
             },
             {
                 name: "Stage 3: Peak Tease & Edging",
-                duration: 180, // 3 mins
-                instructions: "Intense teasing, multiple potential edges. Spillages ignored or punished per decree.",
-                commands: ["EDGE NOW", "HOLD EDGE", "SLOW DOWN", "FAST", "DO NOT COME"]
+                duration: 180, // 3 minutes
+                instructions: "The danger zone. Absolute obedience required. Edging and heavy tease sequences.",
+                commands: [
+                    "FAST RHYTHM", 
+                    "APPROACHING EDGE", 
+                    "HOLD THE EDGE NOW", 
+                    "ABSOLUTE STILLNESS", 
+                    "DO NOT COME / DENIED"
+                ]
             }
         ];
 
@@ -318,16 +338,20 @@
                 document.getElementById('timer-display').textContent = 
                     `Stage Time Left: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
 
-                // Cycle commands dynamically
+                // Cycle granular commands every 12 seconds
                 const stage = stages[currentStageIndex];
-                if (stageSecondsLeft % 15 === 0) {
+                if (stageSecondsLeft % 12 === 0) {
                     document.getElementById('live-command').textContent = getRandomItem(stage.commands);
                 }
 
-                // Inject the roulette tasks automatically into the middle stages
+                // Dynamic mid-stage automated task injection based on roulette results
                 if (stageSecondsLeft === Math.floor(stageTotalSeconds / 2)) {
-                    document.getElementById('task-text').textContent = 
-                        `MISTRESS ACTION REQUIRED: ${sessionResults.domAction} + ${sessionResults.specialElement}`;
+                    document.getElementById('task-text').innerHTML = 
+                        `<strong>MANDATORY ACTION:</strong> ${sessionResults.domAction}<br>` +
+                        `<strong>SPECIAL DIRECTIVE:</strong> ${sessionResults.specialElement}`;
+                } else if (stageSecondsLeft === stageTotalSeconds - 5) {
+                    document.getElementById('task-text').innerHTML = 
+                        `Current Rule Focus: ${sessionResults.step3Result} | Attire: ${sessionResults.subAttire}`;
                 }
 
                 if (stageSecondsLeft <= 0) {
@@ -348,15 +372,15 @@
                   `- Permitted Action: ${sessionResults.domAction}\n` +
                   `- Special Element: ${sessionResults.specialElement}\n` +
                   `- Final Decree: ${sessionResults.step3Result}\n\n` +
-                  `Prepare any necessary tools or cleanup items now.`);
+                  `Prepare any necessary tools, cleaning gear, or restraints right now.`);
         }
 
         function endGameSession() {
             document.getElementById('main-event-screen').innerHTML = `
                 <h3 class="prompt-title">Session Complete (10-Min Target Reached)</h3>
                 <p>Final Ruling: <strong>${sessionResults.step3Result}</strong></p>
-                <p>If an accidental spillage occurred, the Mistress decides punishment or ignore.</p>
-                <p>Cleanup protocol active if needed.</p>
+                <p><em>Accidental spillage note:</em> Tough luck—it is entirely up to the Mistress whether it is ignored or punished.</p>
+                <p>Execute final protocol.</p>
                 <button onclick="location.reload()">Start New Session</button>
             `;
         }
