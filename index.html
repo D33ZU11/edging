@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roulette Decree & Session Generator</title>
+    <style>
+        body {
+            font-family: monospace, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #1e1e1e;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            width: 400px;
+            text-align: center;
+        }
+        button {
+            background-color: #bb86fc;
+            color: #121212;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #3700b3;
+            color: #ffffff;
+        }
+        .result-box {
+            margin-top: 20px;
+            text-align: left;
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 4px;
+            min-height: 120px;
+        }
+        .result-box p {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Session Roulette</h2>
+        <p>Determine the parameters for the upcoming session.</p>
+        <button onclick="spinRoulette()">Spin Roulette</button>
+        
+        <div class="result-box" id="output">
+            <p><em>Click spin to generate parameters...</em></p>
+        </div>
+    </div>
+
+    <script>
+        // Data arrays for the roulette
+        const subAttire = [
+            "Fully strapped / harness", 
+            "Completely bare / exposed", 
+            "Locked in chastity", 
+            "Collared and restrained"
+        ];
+
+        const domAttire = [
+            "Full leather / latex gear", 
+            "Minimalist control gear", 
+            "Casual dominance", 
+            "Strict uniform"
+        ];
+
+        const decrees = [
+            "Allowed 1 full orgasm", 
+            "Strictly ruined / denied", 
+            "Edge-fed only (permitted at very end)", 
+            "Edged 3 times then permitted"
+        ];
+
+        const specialTriggers = [
+            "Choking interval", 
+            "Forced oral task", 
+            "Impact / pain play prompt", 
+            "Absolute stillness command"
+        ];
+
+        function getRandomItem(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function spinRoulette() {
+            const sub = getRandomItem(subAttire);
+            const dom = getRandomItem(domAttire);
+            const decree = getRandomItem(decree);
+            const trigger = getRandomItem(specialTriggers);
+
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = `
+                <p><strong>Sub Attire:</strong> ${sub}</p>
+                <p><strong>Dom Attire:</strong> ${dom}</p>
+                <p><strong>Session Decree:</strong> ${decree}</p>
+                <p><strong>Active Trigger:</strong> ${trigger}</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
