@@ -21,7 +21,7 @@
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            width: 580px;
+            width: 600px;
             text-align: center;
         }
         button {
@@ -73,11 +73,11 @@
         }
         /* Main Event UI Styles */
         .command-display {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #ff7597;
             margin: 15px 0;
-            height: 60px;
+            height: 65px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -86,6 +86,12 @@
             border: 1px solid #333;
             padding: 0 10px;
             text-align: center;
+        }
+        .action-timer {
+            font-size: 1.2rem;
+            color: #03dac6;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
         .task-alert-box {
             background: #3c1f1f;
@@ -101,7 +107,7 @@
             width: 100%;
             background: #2d2d2d;
             border-radius: 4px;
-            height: 18px;
+            height: 14px;
             margin: 15px 0;
             overflow: hidden;
         }
@@ -140,10 +146,11 @@
 
         <!-- MAIN EVENT PHASE (10 MINS) -->
         <div id="main-event-screen" class="hidden">
-            <h3 id="stage-title" class="prompt-title">Stage: Warm-Up</h3>
-            <p id="stage-instructions" style="font-size: 0.85rem; color: #ccc; min-height: 35px;"></p>
+            <h3 id="stage-title" class="prompt-title">Stage 1</h3>
+            <p id="stage-instructions" style="font-size: 0.85rem; color: #ccc; min-height: 30px;"></p>
             
-            <div class="command-display" id="live-command">STAND BY...</div>
+            <div class="command-display" id="live-command">PREPARING...</div>
+            <div class="action-timer" id="action-timer-display">Action Time: 0s</div>
             
             <!-- Automated or Triggered Roulette Tasks -->
             <div class="task-alert-box" id="active-task-box">
@@ -155,11 +162,11 @@
                 <div class="meter-bar" id="progress-bar"></div>
             </div>
             
-            <p id="timer-display" style="font-weight: bold;">Stage Time Left: 3:00</p>
+            <p id="total-timer-display" style="font-weight: bold; font-size: 0.85rem; color: #aaa;">Total Session Time Left: 10:00</p>
             
             <div class="controls-row">
                 <button class="btn-secondary" onclick="previewDecree()">Mistress Prep Info</button>
-                <button class="btn-danger" onclick="skipStage()">Skip Stage ➔</button>
+                <button class="btn-danger" onclick="skipStage()">Skip Current Action ➔</button>
             </div>
         </div>
 
@@ -232,7 +239,7 @@
         }
 
         function getRandomItem(arr) {
-            return arr[Math.floor(Math.random() .length)] || arr[Math.floor(Math.random() * arr.length)];
+            return arr[Math.floor(Math.random() * arr.length)];
         }
 
         function nextStep() {
@@ -256,114 +263,100 @@
             updateStepPrompt();
         }
 
-        // --- 10-MINUTE STRUCTURED STROKING ENGINE ---
-        let currentStageIndex = 0;
-        let stageTimer;
-        let stageSecondsLeft = 0;
-        let stageTotalSeconds = 0;
+        // --- TIMED MICRO-ACTION ENGINE (10 MINS TOTAL) ---
+        let totalSessionSeconds = 600; // 10 minutes
+        let globalTimer;
+        
+        let currentActionIndex = 0;
+        let actionTimeLeft = 0;
 
-        const stages = [
-            {
-                name: "Stage 1: Warm-Up (Conditioning)",
-                duration: 180, // 3 minutes
-                instructions: "Get accustomed to the attire. Slow, deliberate friction to warm the body up.",
-                commands: [
-                    "SLOW LIGHT STROKES", 
-                    "BUILD GENTLE RHYTHM", 
-                    "STAY RELAXED", 
-                    "ESTABLISH BASELINE"
-                ]
-            },
-            {
-                name: "Stage 2: Build & Pace (Escalation)",
-                duration: 240, // 4 minutes
-                instructions: "Increase the tempo. Active Mistress action integration begins now.",
-                commands: [
-                    "STEADY RHYTHMIC STROKING", 
-                    "BUILD THE PRESSURE", 
-                    "PICK UP THE PACE", 
-                    "CONTROLLED BREATHING", 
-                    "DECREE CHECK INCOMING"
-                ]
-            },
-            {
-                name: "Stage 3: Peak Tease & Edging",
-                duration: 180, // 3 minutes
-                instructions: "The danger zone. Absolute obedience required. Edging and heavy tease sequences.",
-                commands: [
-                    "FAST RHYTHM", 
-                    "APPROACHING EDGE", 
-                    "HOLD THE EDGE NOW", 
-                    "ABSOLUTE STILLNESS", 
-                    "DO NOT COME / DENIED"
-                ]
-            }
+        // Sequence of specific physical instructions with distinct durations designed for maximum teasing
+        const actionSequence = [
+            // Phase 1: Conditioning & Long Slow Teases (Approx 3 mins)
+            { stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely enough friction to feel good.", duration: 40 },
+            { stageName: "Stage 1: Conditioning", text: "HALT. Absolute stillness. Hands off completely for a agonizing pause.", duration: 20 },
+            { stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every single movement.", duration: 45 },
+            { stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Do not touch.", duration: 15 },
+            { stageName: "Stage 1: Conditioning", text: "Medium steady pace. Building initial blood flow and warmth.", duration: 60 },
+
+            // Phase 2: Escalation & Rhythm Shifting (Approx 4 mins)
+            { stageName: "Stage 2: Escalation", text: "Pick up the speed. Firm, rhythmic strokes building heat.", duration: 40 },
+            { stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE. Drop your hand. Wait and stare.", duration: 25 },
+            { stageName: "Stage 2: Escalation", text: "Fast short burst of friction—then instant stop!", duration: 15 },
+            { stageName: "Stage 2: Escalation", text: "Slow down immediately. Torturous, dragging strokes.", duration: 50 },
+            { stageName: "Stage 2: Escalation", text: "Rhythmic mid-speed stroking. Maintain steady control.", duration: 50 },
+            { stageName: "Stage 2: Escalation", text: "Hold the shaft still. Zero movement. Let the urge spike.", duration: 20 },
+
+            // Phase 3: Peak Tease, Edging & Denial (Approx 3 mins)
+            { stageName: "Stage 3: Peak & Edging", text: "Fast, aggressive strokes pushing right to the brink!", duration: 30 },
+            { stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Freeze right at the point of no return!", duration: 20 },
+            { stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Teasing the drop.", duration: 35 },
+            { stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops!", duration: 20 },
+            { stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE HOLD. Lock it in place. Await the final ruling.", duration: 35 }
         ];
 
         function launchMainEvent() {
             document.getElementById('game-sequence').classList.add('hidden');
             document.getElementById('main-event-screen').classList.remove('hidden');
-            loadStage(0);
+            
+            // Set initial task text box info
+            document.getElementById('task-text').innerHTML = 
+                `<strong>Attire Required:</strong> ${sessionResults.subAttire}<br>` +
+                `<strong>Permitted Action:</strong> ${sessionResults.domAction}<br>` +
+                `<strong>Special Rule:</strong> ${sessionResults.specialElement}`;
+
+            loadAction(0);
+            startGlobalClock();
         }
 
-        function loadStage(index) {
-            if (index >= stages.length) {
+        function startGlobalClock() {
+            globalTimer = setInterval(() => {
+                if (totalSessionSeconds > 0) {
+                    totalSessionSeconds--;
+                    let mins = Math.floor(totalSessionSeconds / 60);
+                    let secs = totalSessionSeconds % 60;
+                    document.getElementById('total-timer-display').textContent = 
+                        `Total Session Time Left: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+                    let progressPercent = ((600 - totalSessionSeconds) / 600) * 100;
+                    document.getElementById('progress-bar').style.width = progressPercent + '%';
+                }
+            }, 1000);
+        }
+
+        function loadAction(index) {
+            if (index >= actionSequence.length || totalSessionSeconds <= 0) {
                 endGameSession();
                 return;
             }
-            currentStageIndex = index;
-            const stage = stages[currentStageIndex];
+            currentActionIndex = index;
+            const currentAction = actionSequence[currentActionIndex];
+
+            document.getElementById('stage-title').textContent = currentAction.stageName;
+            document.getElementById('live-command').textContent = currentAction.text;
             
-            document.getElementById('stage-title').textContent = stage.name;
-            document.getElementById('stage-instructions').textContent = stage.instructions;
-            
-            stageSecondsLeft = stage.duration;
-            stageTotalSeconds = stage.duration;
-            
-            runStageLoop();
+            actionTimeLeft = currentAction.duration;
+            runActionTimer();
         }
 
-        function runStageLoop() {
-            clearInterval(stageTimer);
-            let progress = 0;
+        let actionTimer;
+        function runActionTimer() {
+            clearInterval(actionTimer);
 
-            stageTimer = setInterval(() => {
-                stageSecondsLeft--;
-                progress = ((stageTotalSeconds - stageSecondsLeft) / stageTotalSeconds) * 100;
+            actionTimer = setInterval(() => {
+                actionTimeLeft--;
+                document.getElementById('action-timer-display').textContent = `Action Time Left: ${actionTimeLeft}s`;
 
-                document.getElementById('progress-bar').style.width = progress + '%';
-                
-                let mins = Math.floor(stageSecondsLeft / 60);
-                let secs = stageSecondsLeft % 60;
-                document.getElementById('timer-display').textContent = 
-                    `Stage Time Left: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
-
-                // Cycle granular commands every 12 seconds
-                const stage = stages[currentStageIndex];
-                if (stageSecondsLeft % 12 === 0) {
-                    document.getElementById('live-command').textContent = getRandomItem(stage.commands);
-                }
-
-                // Dynamic mid-stage automated task injection based on roulette results
-                if (stageSecondsLeft === Math.floor(stageTotalSeconds / 2)) {
-                    document.getElementById('task-text').innerHTML = 
-                        `<strong>MANDATORY ACTION:</strong> ${sessionResults.domAction}<br>` +
-                        `<strong>SPECIAL DIRECTIVE:</strong> ${sessionResults.specialElement}`;
-                } else if (stageSecondsLeft === stageTotalSeconds - 5) {
-                    document.getElementById('task-text').innerHTML = 
-                        `Current Rule Focus: ${sessionResults.step3Result} | Attire: ${sessionResults.subAttire}`;
-                }
-
-                if (stageSecondsLeft <= 0) {
-                    clearInterval(stageTimer);
-                    loadStage(currentStageIndex + 1);
+                if (actionTimeLeft <= 0) {
+                    clearInterval(actionTimer);
+                    loadAction(currentActionIndex + 1);
                 }
             }, 1000);
         }
 
         function skipStage() {
-            clearInterval(stageTimer);
-            loadStage(currentStageIndex + 1);
+            clearInterval(actionTimer);
+            loadAction(currentActionIndex + 1);
         }
 
         function previewDecree() {
@@ -376,6 +369,8 @@
         }
 
         function endGameSession() {
+            clearInterval(globalTimer);
+            clearInterval(actionTimer);
             document.getElementById('main-event-screen').innerHTML = `
                 <h3 class="prompt-title">Session Complete (10-Min Target Reached)</h3>
                 <p>Final Ruling: <strong>${sessionResults.step3Result}</strong></p>
