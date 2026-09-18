@@ -370,35 +370,35 @@
             "Forced humiliation speech check"
         ];
 
-        // Section-Specific Random Mistress Actions for Boredom / Flavor Switches
+        // Section-Specific Direct Dom Action Pools
         const mistressActionPools = {
-            // Stage 0: Conditioning (Boundaries & Mind Games)
+            // Stage 0: Conditioning
             0: [
-                "Boundary Test: Force sub to repeat aloud: 'My body and arousal belong entirely to Mistress.'",
-                "Posture Check: Sub must lock eyes with you without blinking or moving for 10 seconds.",
-                "Permission Rule: Sub must ask out loud and wait 3 full seconds before every stroke change.",
-                "Mental Anchor: Remind the sub of their absolute submission with a firm grip on the chin."
+                "Spit directly onto the sub's face or chest.",
+                "Deliver 2 firm slaps across the face or thighs.",
+                "Force the sub to hold your spit in their mouth without swallowing for 30 seconds.",
+                "Grab and tightly squeeze or choke the throat."
             ],
-            // Stage 1: Escalation (Rougher & More Degrading)
+            // Stage 1: Escalation
             1: [
-                "Degradation: Remind the sub how pathetic they look right now struggling to keep pace.",
-                "Impact Play: Deliver 2 sharp slaps or pinches to the thighs to spike their adrenaline.",
-                "Verbal Taunt: Force the sub to beg for permission to speed up, then deny them for 10 seconds.",
-                "Aggressive Control: Grab a handful of hair or force their head back while they stroke."
+                "Spit directly into the sub's open mouth.",
+                "Deliver hard slaps and aggressive impact play.",
+                "Take a mouthful of spit back, pull away, and spit it back onto them.",
+                "Choke hard and force the sub to keep stroking through it."
             ],
-            // Stage 2: Edging (Force Tasting, Humiliation, Teasing)
+            // Stage 2: Edging
             2: [
-                "Force Tasting: Sub must taste their own precum off your fingers or their own hand immediately.",
-                "Humiliation: Force the sub to confess out loud how close they are to completely losing control.",
-                "Cruel Tease: Stop all motion instantly, force sub to hold an edge position, and mock their impatience.",
-                "Verbal Break: Command the sub to thank you for every single spike of frustration."
+                "Force the sub to taste their own pre-cum off your fingers.",
+                "Catch pre-cum or dribble in a glass/spoon and feed it straight back to them.",
+                "Spit in a glass, mix it, and make them drink it.",
+                "Force a messy deepthroat right at the peak of an edge."
             ],
-            // Stage 3: Final Decree / Ending (Ideas before release)
+            // Stage 3: Final Decree / Ending
             3: [
-                "Finale Prep: Give a sharp spank to mark the end of the suffering before issuing the final decree.",
-                "Aftercare Tease: Whisper a filthy promise of what will happen next time before letting them clean up.",
-                "Commanded Cleanup: Force the sub to clean up any mess entirely on their own hands and knees.",
-                "Final Submission: Lock eyes, demand a final low bow of thanks, and release them from service."
+                "Humiliating taste test: feed them their own mixed fluids before release or denial.",
+                "Spit one final time onto them to seal the session.",
+                "Heavy face slaps and choking right before the final ruling.",
+                "Command them to lick clean any mess entirely."
             ]
         };
 
@@ -662,11 +662,10 @@
             loadAction(nextIndex);
         }
 
-        // Pulls a random stage-tailored instruction when the Dom taps "Mistress Action"
         function triggerMistressAction() {
             const pool = mistressActionPools[currentSectionId] || mistressActionPools[0];
             const randomPrompt = getRandomItem(pool);
-            alert(`MISTRESS DIRECTIVE (Stage ${currentSectionId + 1}):\n\n${randomPrompt}`);
+            alert(`MISTRESS ACTION:\n\n${randomPrompt}`);
         }
 
         function endGameSession() {
