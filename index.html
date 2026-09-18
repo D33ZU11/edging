@@ -370,36 +370,40 @@
             "Forced humiliation speech check"
         ];
 
-        // Section-Specific Direct Dom Action Pools
+        // Logical Progression Pools per Stage (Tracks used items so they never repeat until the pool resets)
         const mistressActionPools = {
-            // Stage 0: Conditioning
             0: [
                 "Spit directly onto the sub's face or chest.",
                 "Deliver 2 firm slaps across the face or thighs.",
                 "Force the sub to hold your spit in their mouth without swallowing for 30 seconds.",
                 "Grab and tightly squeeze or choke the throat."
             ],
-            // Stage 1: Escalation
             1: [
                 "Spit directly into the sub's open mouth.",
                 "Deliver hard slaps and aggressive impact play.",
-                "Take a mouthful of spit back, pull away, and spit it back onto them.",
-                "Choke hard and force the sub to keep stroking through it."
+                "Spit into your own mouth, lean down, and pass it back into the sub's mouth.",
+                "Choke hard while the Mistress takes over full stroking control."
             ],
-            // Stage 2: Edging
             2: [
                 "Force the sub to taste their own pre-cum off your fingers.",
-                "Catch pre-cum or dribble in a glass/spoon and feed it straight back to them.",
-                "Spit in a glass, mix it, and make them drink it.",
-                "Force a messy deepthroat right at the peak of an edge."
+                "Catch pre-cum or dribble in a glass or spoon and feed it straight back to them.",
+                "Spit in a glass, mix it with pre-cum, and make them drink it.",
+                "Force a messy deepthroat right at the peak of an edge under strict Mistress pacing."
             ],
-            // Stage 3: Final Decree / Ending
             3: [
                 "Humiliating taste test: feed them their own mixed fluids before release or denial.",
                 "Spit one final time onto them to seal the session.",
                 "Heavy face slaps and choking right before the final ruling.",
-                "Command them to lick clean any mess entirely."
+                "Command them to lick clean any mess entirely from the Mistress's hands."
             ]
+        };
+
+        // Session Memory Tracker for Mistress Actions (Prevents repeats within the same run)
+        let usedMistressActions = {
+            0: [],
+            1: [],
+            2: [],
+            3: []
         };
 
         let currentStep = 0;
@@ -474,24 +478,24 @@
         let loggedEdges = 0;
 
         const actionSequence = [
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely any friction.", duration: 45, bpm: 35, instructions: "Match pace: Up and down with the bar." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "HALT! Absolute stillness. Hands off completely.", duration: 25, bpm: 0, instructions: "Freeze completely. Do not move." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every inch.", duration: 45, bpm: 40, instructions: "Drag it out smoothly." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Do not touch.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
-            { section: 0, stageName: "Stage 1: Conditioning", text: "Medium steady pace. Building heat.", duration: 60, bpm: 75, instructions: "Steady mid-speed friction." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes managed by Mistress.", duration: 45, bpm: 35, instructions: "Mistress strokes: Match pace with the bar." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "HALT! Absolute stillness. Mistress holding shaft still.", duration: 25, bpm: 0, instructions: "Freeze completely. Do not move." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress resumes ultra-slow gliding strokes.", duration: 45, bpm: 40, instructions: "Mistress controls the friction." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Mistress hand resting on top.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Mistress sets medium steady pace. Building heat.", duration: 60, bpm: 75, instructions: "Steady mid-speed friction by Mistress." },
 
-            { section: 1, stageName: "Stage 2: Escalation", text: "Pick up the speed. Firm, rhythmic friction building fast.", duration: 40, bpm: 100, instructions: "Consistent faster tempo." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Drop your hand. Wait and stare.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Fast short burst of speed—then instant stop!", duration: 15, bpm: 135, instructions: "Rapid bursts on the bar!" },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Slow down immediately. Torturous, dragging strokes.", duration: 50, bpm: 35, instructions: "Drop back to agonizing slow." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Rhythmic mid-speed stroking. Stay controlled.", duration: 50, bpm: 80, instructions: "Find the groove." },
-            { section: 1, stageName: "Stage 2: Escalation", text: "Hold the shaft completely still. Let the urge spike.", duration: 20, bpm: 0, instructions: "No motion allowed." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress picks up the speed. Firm, rhythmic friction.", duration: 40, bpm: 100, instructions: "Consistent faster tempo by Mistress." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Mistress locks hand in place.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Fast short burst of speed by Mistress—then instant stop!", duration: 15, bpm: 135, instructions: "Rapid bursts on the bar!" },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress slows down immediately. Torturous, dragging strokes.", duration: 50, bpm: 35, instructions: "Drop back to agonizing slow." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress maintains rhythmic mid-speed stroking.", duration: 50, bpm: 80, instructions: "Stay controlled." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Mistress holds shaft completely still. Let the urge spike.", duration: 20, bpm: 0, instructions: "No motion allowed." },
 
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Fast, aggressive strokes pushing right to the brink!", duration: 35, bpm: 130, instructions: "Hard, fast rhythm!" },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Freeze right at the edge!", duration: 25, bpm: 0, instructions: "Hold the edge without spilling." },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Tease the drop.", duration: 35, bpm: 30, instructions: "Barely touching to survive the drop." },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops!", duration: 25, bpm: 150, instructions: "Intense peak tempo." },
-            { section: 2, stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE BUILD. Push hard and prepare your edges.", duration: 40, bpm: 140, instructions: "Comply with rule requirements." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Mistress drives fast, aggressive strokes right to the brink!", duration: 35, bpm: 130, instructions: "Hard, fast rhythm by Mistress!" },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Mistress locks you right at the edge!", duration: 25, bpm: 0, instructions: "Hold the edge under Mistress control." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after edge. Mistress teases drop.", duration: 35, bpm: 30, instructions: "Barely touching to survive." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops by Mistress!", duration: 25, bpm: 150, instructions: "Intense peak tempo." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE BUILD. Mistress pushes hard to your limit.", duration: 40, bpm: 140, instructions: "Comply with rule requirements." },
 
             { section: 3, stageName: "Stage 4: Final Decree", text: "Session finale. Awaiting final ruling execution.", duration: 15, bpm: 0, instructions: "Execution phase." }
         ];
@@ -662,10 +666,25 @@
             loadAction(nextIndex);
         }
 
+        // Logical Mistress Action Selector with State Memory (No repeats until pool resets)
         function triggerMistressAction() {
-            const pool = mistressActionPools[currentSectionId] || mistressActionPools[0];
-            const randomPrompt = getRandomItem(pool);
-            alert(`MISTRESS ACTION:\n\n${randomPrompt}`);
+            const fullPool = mistressActionPools[currentSectionId] || mistressActionPools[0];
+            let usedList = usedMistressActions[currentSectionId];
+
+            // If all items in this stage have been used, reset the tracker for this stage
+            if (usedList.length >= fullPool.length) {
+                usedMistressActions[currentSectionId] = [];
+                usedList = usedMistressActions[currentSectionId];
+            }
+
+            // Filter available items not yet used in this session
+            let availableItems = fullPool.filter(item => !usedList.includes(item));
+            let selectedPrompt = getRandomItem(availableItems);
+
+            // Mark as used
+            usedMistressActions[currentSectionId].push(selectedPrompt);
+
+            alert(`MISTRESS ACTION (Stage ${currentSectionId + 1}):\n\n${selectedPrompt}`);
         }
 
         function endGameSession() {
