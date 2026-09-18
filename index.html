@@ -120,13 +120,13 @@
             margin-bottom: 5px;
         }
 
-        /* Main Event Mobile UI & Metronome */
+        /* Main Event Mobile UI */
         .command-display {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 900;
             color: #fff;
             margin: 10px 0;
-            min-height: 60px;
+            min-height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -138,36 +138,52 @@
             text-shadow: 0 0 12px var(--accent-pink);
         }
 
-        /* Metronome Visual Ring */
-        .metronome-box {
+        /* Vertical Metronome Bar Layout */
+        .metronome-container {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 15px;
             margin: 15px 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .metronome-pulse {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: var(--accent-teal);
-            box-shadow: 0 0 15px var(--accent-teal);
-            transform: scale(0.8);
-            transition: transform 0.15s ease-in-out, background 0.15s ease-in-out;
-            margin-bottom: 5px;
+        .vert-bar-track {
+            width: 24px;
+            height: 140px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        .metronome-pulse.beat {
-            transform: scale(1.15);
-            background: var(--accent-pink);
-            box-shadow: 0 0 25px var(--accent-pink);
+        .vert-bar-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to top, var(--accent-purple), var(--accent-pink));
+            box-shadow: 0 0 15px var(--accent-pink);
+            /* Transition speed is dynamically controlled via JS to match BPM */
+            transition: height linear; 
+        }
+
+        .metronome-info {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .action-timer {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--accent-teal);
-            margin-bottom: 5px;
+            margin-top: 4px;
             font-weight: bold;
             text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
         }
@@ -178,7 +194,7 @@
             color: #ffb8b8;
             padding: 10px;
             border-radius: 8px;
-            margin: 10px 0;
+            margin: 8px 0;
             font-size: 0.8rem;
             text-align: left;
         }
@@ -187,8 +203,8 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            height: 10px;
-            margin: 10px 0;
+            height: 8px;
+            margin: 8px 0;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -235,19 +251,22 @@
 
         <!-- MAIN EVENT PHASE -->
         <div id="main-event-screen" class="hidden">
-            <h3 id="stage-title" class="prompt-title" style="color: var(--accent-pink); margin: 0 0 5px 0;">Stage 1</h3>
-            <p id="stage-instructions" style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 10px 0;"></p>
+            <h3 id="stage-title" class="prompt-title" style="color: var(--accent-pink); margin: 0 0 3px 0;">Stage 1</h3>
+            <p id="stage-instructions" style="font-size: 0.78rem; color: var(--text-muted); margin: 0 0 8px 0;"></p>
             
             <div class="command-display" id="live-command">PREPARING...</div>
             
-            <!-- Metronome Visualizer -->
-            <div class="metronome-box">
-                <div class="metronome-pulse" id="pulse-ring"></div>
-                <span id="tempo-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Tempo: Syncing</span>
+            <!-- Vertical Pumping Metronome Visualizer -->
+            <div class="metronome-container">
+                <div class="vert-bar-track">
+                    <div class="vert-bar-fill" id="vert-bar"></div>
+                </div>
+                <div class="metronome-info">
+                    <span id="tempo-label" style="font-size: 0.8rem; font-weight: bold; color: #fff; letter-spacing: 0.5px;">TEMPO: SYNCING</span>
+                    <div class="action-timer" id="action-timer-display">Action: 0s</div>
+                </div>
             </div>
 
-            <div class="action-timer" id="action-timer-display">Action Time Left: 0s</div>
-            
             <!-- Automated or Triggered Roulette Tasks -->
             <div class="task-alert-box" id="active-task-box">
                 <strong>Active Directives:</strong><br>
@@ -258,7 +277,7 @@
                 <div class="meter-bar" id="progress-bar"></div>
             </div>
             
-            <p id="total-timer-display" style="font-weight: bold; font-size: 0.8rem; color: var(--text-muted); margin: 5px 0;">Total Session Time Left: 10:00</p>
+            <p id="total-timer-display" style="font-weight: bold; font-size: 0.8rem; color: var(--text-muted); margin: 4px 0;">Total Session Time Left: 10:00</p>
             
             <div class="controls-row">
                 <button class="btn-secondary" onclick="previewDecree()">Mistress Prep</button>
@@ -359,30 +378,30 @@
             updateStepPrompt();
         }
 
-        // --- 10-MIN ENGINE WITH METRONOME ---
+        // --- 10-MIN ENGINE WITH VERTICAL PUMPING METRONOME ---
         let totalSessionSeconds = 600;
         let globalTimer;
         let currentActionIndex = 0;
         let actionTimeLeft = 0;
-        let metronomeInterval = null;
+        let vertPumpInterval = null;
 
         const actionSequence = [
-            { stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely any friction.", duration: 40, bpm: 40, instructions: "Match rhythm: One slow stroke per pulse." },
+            { stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely any friction.", duration: 40, bpm: 35, instructions: "Match pace: Up and down with the bar." },
             { stageName: "Stage 1: Conditioning", text: "HALT! Absolute stillness. Hands off completely.", duration: 20, bpm: 0, instructions: "Freeze completely. Do not move." },
-            { stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every inch.", duration: 45, bpm: 45, instructions: "Match rhythm: Drag it out." },
+            { stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every inch.", duration: 45, bpm: 40, instructions: "Drag it out smoothly." },
             { stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Do not touch.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
             { stageName: "Stage 1: Conditioning", text: "Medium steady pace. Building heat.", duration: 60, bpm: 75, instructions: "Steady mid-speed friction." },
 
             { stageName: "Stage 2: Escalation", text: "Pick up the speed. Firm, rhythmic friction building fast.", duration: 40, bpm: 100, instructions: "Consistent faster tempo." },
             { stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Drop your hand. Wait and stare.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
-            { stageName: "Stage 2: Escalation", text: "Fast short burst of speed—then instant stop!", duration: 15, bpm: 140, instructions: "Rapid bursts on the beat!" },
-            { stageName: "Stage 2: Escalation", text: "Slow down immediately. Torturous, dragging strokes.", duration: 50, bpm: 40, instructions: "Drop back to agonizing slow." },
+            { stageName: "Stage 2: Escalation", text: "Fast short burst of speed—then instant stop!", duration: 15, bpm: 135, instructions: "Rapid bursts on the bar!" },
+            { stageName: "Stage 2: Escalation", text: "Slow down immediately. Torturous, dragging strokes.", duration: 50, bpm: 35, instructions: "Drop back to agonizing slow." },
             { stageName: "Stage 2: Escalation", text: "Rhythmic mid-speed stroking. Stay controlled.", duration: 50, bpm: 80, instructions: "Find the groove." },
             { stageName: "Stage 2: Escalation", text: "Hold the shaft completely still. Let the urge spike.", duration: 20, bpm: 0, instructions: "No motion allowed." },
 
             { stageName: "Stage 3: Peak & Edging", text: "Fast, aggressive strokes pushing right to the brink!", duration: 30, bpm: 130, instructions: "Hard, fast rhythm!" },
             { stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Freeze right at the edge!", duration: 20, bpm: 0, instructions: "Hold the edge without spilling." },
-            { stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Tease the drop.", duration: 35, bpm: 35, instructions: "Barely touching to survive the drop." },
+            { stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Tease the drop.", duration: 35, bpm: 30, instructions: "Barely touching to survive the drop." },
             { stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops!", duration: 20, bpm: 150, instructions: "Intense peak tempo." },
             { stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE HOLD. Lock it in place. Await the ruling.", duration: 35, bpm: 0, instructions: "Final stillness test." }
         ];
@@ -429,7 +448,7 @@
             
             actionTimeLeft = currentAction.duration;
             runActionTimer();
-            setupMetronome(currentAction.bpm);
+            setupVerticalMetronome(currentAction.bpm);
         }
 
         let actionTimer;
@@ -438,7 +457,7 @@
 
             actionTimer = setInterval(() => {
                 actionTimeLeft--;
-                document.getElementById('action-timer-display').textContent = `Action Time Left: ${actionTimeLeft}s`;
+                document.getElementById('action-timer-display').textContent = `Action: ${actionTimeLeft}s`;
 
                 if (actionTimeLeft <= 0) {
                     clearInterval(actionTimer);
@@ -447,32 +466,44 @@
             }, 1000);
         }
 
-        function setupMetronome(bpm) {
-            clearInterval(metronomeInterval);
-            const pulseRing = document.getElementById('pulse-ring');
+        function setupVerticalMetronome(bpm) {
+            clearInterval(vertPumpInterval);
+            const vertBar = document.getElementById('vert-bar');
             const tempoLabel = document.getElementById('tempo-label');
 
             if (bpm <= 0) {
-                pulseRing.classList.remove('beat');
-                tempoLabel.textContent = "Tempo: HOLD / FREEZE";
+                vertBar.style.transition = 'none';
+                vertBar.style.height = '0%';
+                tempoLabel.textContent = "TEMPO: FREEZE";
                 return;
             }
 
-            // Calculate milliseconds per beat from BPM
-            const intervalMs = (60 / bpm) * 1000;
-            tempoLabel.textContent = `Tempo: ${bpm} BPM`;
+            // Calculate cycle speed based on BPM (Time for one full up/down stroke)
+            const strokeDurationMs = (60 / bpm) * 1000;
+            tempoLabel.textContent = `TEMPO: ${bpm} BPM`;
 
-            metronomeInterval = setInterval(() => {
-                pulseRing.classList.add('beat');
-                setTimeout(() => {
-                    pulseRing.classList.remove('beat');
-                }, 120); // pulse flash length
-            }, intervalMs);
+            // Apply dynamic CSS transition timing to match the stroke tempo
+            vertBar.style.transition = `height ${strokeDurationMs / 2}ms ease-in-out`;
+
+            let isUp = false;
+            // Immediate first motion
+            vertBar.style.height = '100%';
+            isUp = true;
+
+            vertPumpInterval = setInterval(() => {
+                if (isUp) {
+                    vertBar.style.height = '0%';
+                    isUp = false;
+                } else {
+                    vertBar.style.height = '100%';
+                    isUp = true;
+                }
+            }, strokeDurationMs / 2);
         }
 
         function skipStage() {
             clearInterval(actionTimer);
-            clearInterval(metronomeInterval);
+            clearInterval(vertPumpInterval);
             loadAction(currentActionIndex + 1);
         }
 
@@ -488,7 +519,7 @@
         function endGameSession() {
             clearInterval(globalTimer);
             clearInterval(actionTimer);
-            clearInterval(metronomeInterval);
+            clearInterval(vertPumpInterval);
             document.getElementById('main-event-screen').innerHTML = `
                 <h3 class="prompt-title" style="color: var(--accent-pink);">Session Complete</h3>
                 <p>Final Ruling: <strong>${sessionResults.step3Result}</strong></p>
