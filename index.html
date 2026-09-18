@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session Roulette & Game Setup</title>
+    <title>Session Roulette & Cock Hero</title>
     <style>
         body {
             font-family: monospace, sans-serif;
@@ -13,7 +13,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
         .container {
@@ -21,7 +21,7 @@
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            width: 450px;
+            width: 500px;
             text-align: center;
         }
         button {
@@ -59,12 +59,44 @@
             color: #bb86fc;
             font-weight: bold;
         }
+        /* Main Event Styles */
+        #main-event-screen {
+            text-align: center;
+        }
+        .command-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff7597;
+            margin: 20px 0;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #121212;
+            border-radius: 4px;
+        }
+        .meter-container {
+            width: 100%;
+            background: #2d2d2d;
+            border-radius: 4px;
+            height: 20px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        .meter-bar {
+            height: 100%;
+            width: 0%;
+            background: #bb86fc;
+            transition: width 0.5s linear;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Session Roulette</h2>
+        <h2>Session Roulette & Game</h2>
+        
+        <!-- SETUP PHASE -->
         <div id="game-intro">
             <p>Ready to establish the rules of engagement?</p>
             <button onclick="startSequence()">Begin Setup</button>
@@ -78,10 +110,25 @@
                 <p><em>Waiting for rolls...</em></p>
             </div>
         </div>
+
+        <!-- MAIN EVENT PHASE -->
+        <div id="main-event-screen" class="hidden">
+            <h3 id="phase-title" class="prompt-title">Phase: Warmup</h3>
+            <p id="rule-reminder" style="font-size: 0.85rem; color: #aaa;"></p>
+            
+            <div class="command-display" id="live-command">STAND BY...</div>
+            
+            <div class="meter-container">
+                <div class="meter-bar" id="progress-bar"></div>
+            </div>
+            
+            <p id="timer-display">Time Remaining: 30s</p>
+            <button id="pause-btn" onclick="triggerSpecialEvent()">Special Decree Check</button>
+        </div>
+
     </div>
 
     <script>
-        // Data pools for the 4 steps
         const subAttirePool = [
             "Fully strapped / harness", 
             "Completely bare / exposed", 
@@ -105,7 +152,7 @@
 
         const specialGameElementPool = [
             "Mandatory absolute stillness command during peak intensity", 
-            "Forced oral break every 2 minutes", 
+            "Forced oral break", 
             "Sudden pain play interval trigger", 
             "Forced humiliation speech check"
         ];
@@ -141,8 +188,8 @@
                 instruction.textContent = "Final press: Unlocking the Mistress's special game element for the main event:";
                 btn.textContent = "Roll Special Game Element";
             } else {
-                instruction.textContent = "Setup Complete. Ready for the Main Event.";
-                btn.textContent = "Start Cock Hero Game";
+                instruction.textContent = "Setup Complete. Rules locked.";
+                btn.textContent = "Launch Cock Hero Game";
                 btn.onclick = launchMainEvent;
             }
         }
@@ -172,8 +219,54 @@
             updateStepPrompt();
         }
 
+        // --- MAIN EVENT LOGIC ---
+        let gameInterval;
+        let timeLeft = 30;
+        const commands = ["STROKE", "SLOW", "EDGE", "HOLD", "FAST"];
+
         function launchMainEvent() {
-            alert("Transitioning to the Cock Hero main event screen! (Next phase to build)");
+            document.getElementById('game-sequence').classList.add('hidden');
+            document.getElementById('main-event-screen').classList.remove('hidden');
+            
+            // Display active rules reminder on screen
+            document.getElementById('rule-reminder').textContent = 
+                `Decree: ${sessionResults.step3Result} | Action: ${sessionResults.domAction}`;
+
+            startMainLoop();
+        }
+
+        function startMainLoop() {
+            let progress = 0;
+            gameInterval = setInterval(() => {
+                timeLeft--;
+                progress += (100 / 30);
+                
+                document.getElementById('progress-bar').style.width = progress + '%';
+                document.getElementById('timer-display').textContent = `Time Remaining: ${timeLeft}s`;
+
+                // Randomly change commands
+                if (timeLeft % 5 === 0) {
+                    document.getElementById('live-command').textContent = getRandomItem(commands);
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(gameInterval);
+                    endGameSession();
+                }
+            }, 1000);
+        }
+
+        function triggerSpecialEvent() {
+            alert(`SPECIAL TRIGGER ACTIVE: ${sessionResults.specialElement}\nExecute rule now, Mistress.`);
+        }
+
+        function endGameSession() {
+            document.getElementById('main-event-screen').innerHTML = `
+                <h3 class="prompt-title">Session Complete</h3>
+                <p>Final Ruling: <strong>${sessionResults.step3Result}</strong></p>
+                <p>Execute the decree accordingly.</p>
+                <button onclick="location.reload()">Play Again</button>
+            `;
         }
     </script>
 
