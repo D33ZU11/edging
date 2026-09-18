@@ -120,28 +120,54 @@
             margin-bottom: 5px;
         }
 
-        /* Main Event Mobile UI */
+        /* Main Event Mobile UI & Metronome */
         .command-display {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 900;
             color: #fff;
-            margin: 15px 0;
-            min-height: 70px;
+            margin: 10px 0;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(0, 0, 0, 0.6);
             border-radius: 8px;
             border: 2px solid var(--accent-pink);
-            padding: 10px;
+            padding: 8px;
             text-align: center;
             text-shadow: 0 0 12px var(--accent-pink);
         }
 
+        /* Metronome Visual Ring */
+        .metronome-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .metronome-pulse {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--accent-teal);
+            box-shadow: 0 0 15px var(--accent-teal);
+            transform: scale(0.8);
+            transition: transform 0.15s ease-in-out, background 0.15s ease-in-out;
+            margin-bottom: 5px;
+        }
+
+        .metronome-pulse.beat {
+            transform: scale(1.15);
+            background: var(--accent-pink);
+            box-shadow: 0 0 25px var(--accent-pink);
+        }
+
         .action-timer {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: var(--accent-teal);
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             font-weight: bold;
             text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
         }
@@ -150,10 +176,10 @@
             background: rgba(255, 0, 85, 0.15);
             border: 1px solid var(--danger);
             color: #ffb8b8;
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
-            margin: 15px 0;
-            font-size: 0.85rem;
+            margin: 10px 0;
+            font-size: 0.8rem;
             text-align: left;
         }
 
@@ -161,8 +187,8 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            height: 12px;
-            margin: 15px 0;
+            height: 10px;
+            margin: 10px 0;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -177,13 +203,13 @@
         .controls-row {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         .controls-row button {
             margin: 0;
             font-size: 0.8rem;
-            padding: 12px 10px;
+            padding: 10px 8px;
         }
     </style>
 </head>
@@ -209,11 +235,18 @@
 
         <!-- MAIN EVENT PHASE -->
         <div id="main-event-screen" class="hidden">
-            <h3 id="stage-title" class="prompt-title" style="color: var(--accent-pink);">Stage 1</h3>
-            <p id="stage-instructions" style="font-size: 0.85rem; color: var(--text-muted); min-height: 35px;"></p>
+            <h3 id="stage-title" class="prompt-title" style="color: var(--accent-pink); margin: 0 0 5px 0;">Stage 1</h3>
+            <p id="stage-instructions" style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 10px 0;"></p>
             
             <div class="command-display" id="live-command">PREPARING...</div>
-            <div class="action-timer" id="action-timer-display">Action Time: 0s</div>
+            
+            <!-- Metronome Visualizer -->
+            <div class="metronome-box">
+                <div class="metronome-pulse" id="pulse-ring"></div>
+                <span id="tempo-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Tempo: Syncing</span>
+            </div>
+
+            <div class="action-timer" id="action-timer-display">Action Time Left: 0s</div>
             
             <!-- Automated or Triggered Roulette Tasks -->
             <div class="task-alert-box" id="active-task-box">
@@ -225,7 +258,7 @@
                 <div class="meter-bar" id="progress-bar"></div>
             </div>
             
-            <p id="total-timer-display" style="font-weight: bold; font-size: 0.85rem; color: var(--text-muted);">Total Session Time Left: 10:00</p>
+            <p id="total-timer-display" style="font-weight: bold; font-size: 0.8rem; color: var(--text-muted); margin: 5px 0;">Total Session Time Left: 10:00</p>
             
             <div class="controls-row">
                 <button class="btn-secondary" onclick="previewDecree()">Mistress Prep</button>
@@ -326,31 +359,32 @@
             updateStepPrompt();
         }
 
-        // --- 10-MIN ENGINE ---
+        // --- 10-MIN ENGINE WITH METRONOME ---
         let totalSessionSeconds = 600;
         let globalTimer;
         let currentActionIndex = 0;
         let actionTimeLeft = 0;
+        let metronomeInterval = null;
 
         const actionSequence = [
-            { stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely any friction.", duration: 40 },
-            { stageName: "Stage 1: Conditioning", text: "HALT! Absolute stillness. Hands off completely.", duration: 20 },
-            { stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every inch.", duration: 45 },
-            { stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Do not touch.", duration: 15 },
-            { stageName: "Stage 1: Conditioning", text: "Medium steady pace. Building heat.", duration: 60 },
+            { stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely any friction.", duration: 40, bpm: 40, instructions: "Match rhythm: One slow stroke per pulse." },
+            { stageName: "Stage 1: Conditioning", text: "HALT! Absolute stillness. Hands off completely.", duration: 20, bpm: 0, instructions: "Freeze completely. Do not move." },
+            { stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every inch.", duration: 45, bpm: 45, instructions: "Match rhythm: Drag it out." },
+            { stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Do not touch.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
+            { stageName: "Stage 1: Conditioning", text: "Medium steady pace. Building heat.", duration: 60, bpm: 75, instructions: "Steady mid-speed friction." },
 
-            { stageName: "Stage 2: Escalation", text: "Pick up the speed. Firm, rhythmic friction building fast.", duration: 40 },
-            { stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Drop your hand. Wait and stare.", duration: 25 },
-            { stageName: "Stage 2: Escalation", text: "Fast short burst of speed—then instant stop!", duration: 15 },
-            { stageName: "Stage 2: Escalation", text: "Slow down immediately. Torturous, dragging strokes.", duration: 50 },
-            { stageName: "Stage 2: Escalation", text: "Rhythmic mid-speed stroking. Stay controlled.", duration: 50 },
-            { stageName: "Stage 2: Escalation", text: "Hold the shaft completely still. Let the urge spike.", duration: 20 },
+            { stageName: "Stage 2: Escalation", text: "Pick up the speed. Firm, rhythmic friction building fast.", duration: 40, bpm: 100, instructions: "Consistent faster tempo." },
+            { stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Drop your hand. Wait and stare.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
+            { stageName: "Stage 2: Escalation", text: "Fast short burst of speed—then instant stop!", duration: 15, bpm: 140, instructions: "Rapid bursts on the beat!" },
+            { stageName: "Stage 2: Escalation", text: "Slow down immediately. Torturous, dragging strokes.", duration: 50, bpm: 40, instructions: "Drop back to agonizing slow." },
+            { stageName: "Stage 2: Escalation", text: "Rhythmic mid-speed stroking. Stay controlled.", duration: 50, bpm: 80, instructions: "Find the groove." },
+            { stageName: "Stage 2: Escalation", text: "Hold the shaft completely still. Let the urge spike.", duration: 20, bpm: 0, instructions: "No motion allowed." },
 
-            { stageName: "Stage 3: Peak & Edging", text: "Fast, aggressive strokes pushing right to the brink!", duration: 30 },
-            { stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Freeze right at the edge!", duration: 20 },
-            { stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Tease the drop.", duration: 35 },
-            { stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops!", duration: 20 },
-            { stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE HOLD. Lock it in place. Await the ruling.", duration: 35 }
+            { stageName: "Stage 3: Peak & Edging", text: "Fast, aggressive strokes pushing right to the brink!", duration: 30, bpm: 130, instructions: "Hard, fast rhythm!" },
+            { stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Freeze right at the edge!", duration: 20, bpm: 0, instructions: "Hold the edge without spilling." },
+            { stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Tease the drop.", duration: 35, bpm: 35, instructions: "Barely touching to survive the drop." },
+            { stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops!", duration: 20, bpm: 150, instructions: "Intense peak tempo." },
+            { stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE HOLD. Lock it in place. Await the ruling.", duration: 35, bpm: 0, instructions: "Final stillness test." }
         ];
 
         function launchMainEvent() {
@@ -390,10 +424,12 @@
             const currentAction = actionSequence[currentActionIndex];
 
             document.getElementById('stage-title').textContent = currentAction.stageName;
+            document.getElementById('stage-instructions').textContent = currentAction.instructions;
             document.getElementById('live-command').textContent = currentAction.text;
             
             actionTimeLeft = currentAction.duration;
             runActionTimer();
+            setupMetronome(currentAction.bpm);
         }
 
         let actionTimer;
@@ -411,8 +447,32 @@
             }, 1000);
         }
 
+        function setupMetronome(bpm) {
+            clearInterval(metronomeInterval);
+            const pulseRing = document.getElementById('pulse-ring');
+            const tempoLabel = document.getElementById('tempo-label');
+
+            if (bpm <= 0) {
+                pulseRing.classList.remove('beat');
+                tempoLabel.textContent = "Tempo: HOLD / FREEZE";
+                return;
+            }
+
+            // Calculate milliseconds per beat from BPM
+            const intervalMs = (60 / bpm) * 1000;
+            tempoLabel.textContent = `Tempo: ${bpm} BPM`;
+
+            metronomeInterval = setInterval(() => {
+                pulseRing.classList.add('beat');
+                setTimeout(() => {
+                    pulseRing.classList.remove('beat');
+                }, 120); // pulse flash length
+            }, intervalMs);
+        }
+
         function skipStage() {
             clearInterval(actionTimer);
+            clearInterval(metronomeInterval);
             loadAction(currentActionIndex + 1);
         }
 
@@ -428,6 +488,7 @@
         function endGameSession() {
             clearInterval(globalTimer);
             clearInterval(actionTimer);
+            clearInterval(metronomeInterval);
             document.getElementById('main-event-screen').innerHTML = `
                 <h3 class="prompt-title" style="color: var(--accent-pink);">Session Complete</h3>
                 <p>Final Ruling: <strong>${sessionResults.step3Result}</strong></p>
