@@ -3,136 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette Decree & Cock Hero 10-Min Engine</title>
+    <title>Roulette Decree & Cock Hero</title>
     <style>
+        :root {
+            --bg-deep: #0a0508;
+            --bg-card: #160a12;
+            --accent-pink: #ff2a75;
+            --accent-purple: #9d00ff;
+            --accent-teal: #00f0ff;
+            --text-main: #f5f0f3;
+            --text-muted: #b0a4ac;
+            --danger: #ff0055;
+        }
+
         body {
-            font-family: monospace, sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-        }
-        .container {
-            background: #1e1e1e;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            width: 600px;
-            text-align: center;
-        }
-        button {
-            background-color: #bb86fc;
-            color: #121212;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            margin: 5px;
-            transition: background 0.2s;
-        }
-        button:hover {
-            background-color: #3700b3;
-            color: #ffffff;
-        }
-        .btn-secondary {
-            background-color: #03dac6;
-        }
-        .btn-secondary:hover {
-            background-color: #018786;
-        }
-        .btn-danger {
-            background-color: #cf6679;
-        }
-        .btn-danger:hover {
-            background-color: #b00020;
-        }
-        .display-box {
-            margin-top: 20px;
-            text-align: left;
-            background: #2d2d2d;
             padding: 15px;
-            border-radius: 4px;
-            min-height: 100px;
+            box-sizing: border-box;
         }
-        .display-box p {
+
+        .container {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 0 25px rgba(157, 0, 255, 0.25), inset 0 0 15px rgba(255, 42, 117, 0.1);
+            border: 1px solid rgba(255, 42, 117, 0.3);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: var(--accent-pink);
+            margin-top: 0;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 42, 117, 0.5);
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
             margin: 8px 0;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 42, 117, 0.4);
+            transition: transform 0.1s, filter 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:hover {
+            filter: brightness(1.15);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #0077ff, var(--accent-teal));
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+            color: #000;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff0055, #880022);
+            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);
+        }
+
+        .display-box {
+            margin-top: 15px;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            min-height: 80px;
+        }
+
+        .display-box p {
+            margin: 6px 0;
+            color: var(--text-main);
             font-size: 0.9rem;
         }
+
         .hidden {
-            display: none;
+            display: none !important;
         }
+
         .prompt-title {
-            color: #bb86fc;
+            color: var(--accent-teal);
             font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
         }
-        /* Main Event UI Styles */
+
+        /* Main Event Mobile UI */
         .command-display {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ff7597;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #fff;
             margin: 15px 0;
-            height: 65px;
+            min-height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #121212;
-            border-radius: 4px;
-            border: 1px solid #333;
-            padding: 0 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            border: 2px solid var(--accent-pink);
+            padding: 10px;
             text-align: center;
+            text-shadow: 0 0 12px var(--accent-pink);
         }
+
         .action-timer {
-            font-size: 1.2rem;
-            color: #03dac6;
+            font-size: 1.3rem;
+            color: var(--accent-teal);
             margin-bottom: 10px;
             font-weight: bold;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
         }
+
         .task-alert-box {
-            background: #3c1f1f;
-            border: 1px solid #cf6679;
+            background: rgba(255, 0, 85, 0.15);
+            border: 1px solid var(--danger);
             color: #ffb8b8;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 8px;
             margin: 15px 0;
             font-size: 0.85rem;
             text-align: left;
         }
+
         .meter-container {
             width: 100%;
-            background: #2d2d2d;
-            border-radius: 4px;
-            height: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 12px;
             margin: 15px 0;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
+
         .meter-bar {
             height: 100%;
             width: 0%;
-            background: #bb86fc;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
             transition: width 1s linear;
         }
+
         .controls-row {
             display: flex;
-            justify-content: space-between;
+            gap: 10px;
             margin-top: 15px;
+        }
+
+        .controls-row button {
+            margin: 0;
+            font-size: 0.8rem;
+            padding: 12px 10px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Session Roulette & Cock Hero</h2>
+        <h2>Roulette Decree</h2>
         
         <!-- SETUP PHASE -->
         <div id="game-intro">
-            <p>Ready to establish the rules of engagement?</p>
-            <button onclick="startSequence()">Begin Setup</button>
+            <p>Ready to let fate dictate the session? Take the pressure off and let the rules handle the rest.</p>
+            <button onclick="startSequence()">Let's Play</button>
         </div>
 
         <div id="game-sequence" class="hidden">
@@ -140,21 +203,21 @@
             <button id="action-btn" onclick="nextStep()">Press to Roll</button>
             
             <div class="display-box" id="results-log">
-                <p><em>Waiting for rolls...</em></p>
+                <p><em>Waiting for the first roll...</em></p>
             </div>
         </div>
 
-        <!-- MAIN EVENT PHASE (10 MINS) -->
+        <!-- MAIN EVENT PHASE -->
         <div id="main-event-screen" class="hidden">
-            <h3 id="stage-title" class="prompt-title">Stage 1</h3>
-            <p id="stage-instructions" style="font-size: 0.85rem; color: #ccc; min-height: 30px;"></p>
+            <h3 id="stage-title" class="prompt-title" style="color: var(--accent-pink);">Stage 1</h3>
+            <p id="stage-instructions" style="font-size: 0.85rem; color: var(--text-muted); min-height: 35px;"></p>
             
             <div class="command-display" id="live-command">PREPARING...</div>
             <div class="action-timer" id="action-timer-display">Action Time: 0s</div>
             
             <!-- Automated or Triggered Roulette Tasks -->
             <div class="task-alert-box" id="active-task-box">
-                <strong>Active Rule & Directive:</strong><br>
+                <strong>Active Directives:</strong><br>
                 <span id="task-text">Awaiting phase triggers...</span>
             </div>
             
@@ -162,11 +225,11 @@
                 <div class="meter-bar" id="progress-bar"></div>
             </div>
             
-            <p id="total-timer-display" style="font-weight: bold; font-size: 0.85rem; color: #aaa;">Total Session Time Left: 10:00</p>
+            <p id="total-timer-display" style="font-weight: bold; font-size: 0.85rem; color: var(--text-muted);">Total Session Time Left: 10:00</p>
             
             <div class="controls-row">
-                <button class="btn-secondary" onclick="previewDecree()">Mistress Prep Info</button>
-                <button class="btn-danger" onclick="skipStage()">Skip Current Action ➔</button>
+                <button class="btn-secondary" onclick="previewDecree()">Mistress Prep</button>
+                <button class="btn-danger" onclick="skipStage()">Skip Action ➔</button>
             </div>
         </div>
 
@@ -174,30 +237,30 @@
 
     <script>
         const subAttirePool = [
-            "Fully strapped / harness", 
-            "Completely bare / exposed", 
-            "Locked in chastity", 
-            "Collared and restrained"
+            "Fully strapped / leather harness", 
+            "Completely bare / vulnerable", 
+            "Locked tight in chastity", 
+            "Collared, chained, and restrained"
         ];
 
         const domActionsPool = [
-            "Choke the sub", 
-            "Make them suck something", 
-            "Spit at/on them", 
-            "Slap / impact play"
+            "Choke the sub hard", 
+            "Forced deepthroat task", 
+            "Spit directly on the sub", 
+            "Slap & aggressive impact play"
         ];
 
         const step3Pool = [
-            "Allowed 1 full orgasm", 
-            "Strictly ruined / denied", 
-            "Edge-fed only (permitted at very end)", 
-            "Edged 3 times then permitted"
+            "Allowed 1 full, messy orgasm", 
+            "Strictly ruined & denied completely", 
+            "Edge-fed only (permitted right at the final second)", 
+            "Edged 3 times in a row, then permitted"
         ];
 
         const specialGameElementPool = [
             "Mandatory absolute stillness command during peak intensity", 
-            "Forced oral break", 
-            "Sudden pain play interval trigger", 
+            "Forced sudden oral break mid-stroke", 
+            "Immediate pain play punishment trigger", 
             "Forced humiliation speech check"
         ];
 
@@ -220,20 +283,20 @@
             const btn = document.getElementById('action-btn');
 
             if (currentStep === 0) {
-                instruction.textContent = "Mistress, you're up first. Press to determine what your sub must wear:";
+                instruction.textContent = "Mistress, step up first. Tap to see what your sub must wear:";
                 btn.textContent = "Roll Sub's Attire";
             } else if (currentStep === 1) {
-                instruction.textContent = "Sub's turn to press. Let's see what the Mistress is permitted to do:";
+                instruction.textContent = "Sub's turn to tap. Let's see what the Mistress is permitted to inflict:";
                 btn.textContent = "Roll Mistress Action";
             } else if (currentStep === 2) {
-                instruction.textContent = "Third press: Determining the session outcome/limit:";
+                instruction.textContent = "Third roll: Setting the final decree and limits:";
                 btn.textContent = "Roll Session Decree";
             } else if (currentStep === 3) {
-                instruction.textContent = "Final press: Unlocking the Mistress's special game element for the main event:";
-                btn.textContent = "Roll Special Game Element";
+                instruction.textContent = "Final roll: Unlocking the special game element for the session:";
+                btn.textContent = "Roll Special Element";
             } else {
-                instruction.textContent = "Setup Complete. Rules locked.";
-                btn.textContent = "Launch 10-Minute Cock Hero";
+                instruction.textContent = "Rules locked in. Ready to submit?";
+                btn.textContent = "Launch Cock Hero Engine";
                 btn.onclick = launchMainEvent;
             }
         }
@@ -247,7 +310,7 @@
 
             if (currentStep === 0) {
                 sessionResults.subAttire = getRandomItem(subAttirePool);
-                logDiv.innerHTML = `<p><strong>Sub's Attire:</strong> ${sessionResults.subAttire}</p>`;
+                logDiv.innerHTML = `<p><strong>Sub Attire:</strong> ${sessionResults.subAttire}</p>`;
             } else if (currentStep === 1) {
                 sessionResults.domAction = getRandomItem(domActionsPool);
                 logDiv.innerHTML += `<p><strong>Mistress Action:</strong> ${sessionResults.domAction}</p>`;
@@ -256,54 +319,48 @@
                 logDiv.innerHTML += `<p><strong>Session Decree:</strong> ${sessionResults.step3Result}</p>`;
             } else if (currentStep === 3) {
                 sessionResults.specialElement = getRandomItem(specialGameElementPool);
-                logDiv.innerHTML += `<p><strong>Special Game Element:</strong> ${sessionResults.specialElement}</p>`;
+                logDiv.innerHTML += `<p><strong>Special Element:</strong> ${sessionResults.specialElement}</p>`;
             }
 
             currentStep++;
             updateStepPrompt();
         }
 
-        // --- TIMED MICRO-ACTION ENGINE (10 MINS TOTAL) ---
-        let totalSessionSeconds = 600; // 10 minutes
+        // --- 10-MIN ENGINE ---
+        let totalSessionSeconds = 600;
         let globalTimer;
-        
         let currentActionIndex = 0;
         let actionTimeLeft = 0;
 
-        // Sequence of specific physical instructions with distinct durations designed for maximum teasing
         const actionSequence = [
-            // Phase 1: Conditioning & Long Slow Teases (Approx 3 mins)
-            { stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely enough friction to feel good.", duration: 40 },
-            { stageName: "Stage 1: Conditioning", text: "HALT. Absolute stillness. Hands off completely for a agonizing pause.", duration: 20 },
-            { stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every single movement.", duration: 45 },
+            { stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely any friction.", duration: 40 },
+            { stageName: "Stage 1: Conditioning", text: "HALT! Absolute stillness. Hands off completely.", duration: 20 },
+            { stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every inch.", duration: 45 },
             { stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Do not touch.", duration: 15 },
-            { stageName: "Stage 1: Conditioning", text: "Medium steady pace. Building initial blood flow and warmth.", duration: 60 },
+            { stageName: "Stage 1: Conditioning", text: "Medium steady pace. Building heat.", duration: 60 },
 
-            // Phase 2: Escalation & Rhythm Shifting (Approx 4 mins)
-            { stageName: "Stage 2: Escalation", text: "Pick up the speed. Firm, rhythmic strokes building heat.", duration: 40 },
-            { stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE. Drop your hand. Wait and stare.", duration: 25 },
-            { stageName: "Stage 2: Escalation", text: "Fast short burst of friction—then instant stop!", duration: 15 },
+            { stageName: "Stage 2: Escalation", text: "Pick up the speed. Firm, rhythmic friction building fast.", duration: 40 },
+            { stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Drop your hand. Wait and stare.", duration: 25 },
+            { stageName: "Stage 2: Escalation", text: "Fast short burst of speed—then instant stop!", duration: 15 },
             { stageName: "Stage 2: Escalation", text: "Slow down immediately. Torturous, dragging strokes.", duration: 50 },
-            { stageName: "Stage 2: Escalation", text: "Rhythmic mid-speed stroking. Maintain steady control.", duration: 50 },
-            { stageName: "Stage 2: Escalation", text: "Hold the shaft still. Zero movement. Let the urge spike.", duration: 20 },
+            { stageName: "Stage 2: Escalation", text: "Rhythmic mid-speed stroking. Stay controlled.", duration: 50 },
+            { stageName: "Stage 2: Escalation", text: "Hold the shaft completely still. Let the urge spike.", duration: 20 },
 
-            // Phase 3: Peak Tease, Edging & Denial (Approx 3 mins)
             { stageName: "Stage 3: Peak & Edging", text: "Fast, aggressive strokes pushing right to the brink!", duration: 30 },
-            { stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Freeze right at the point of no return!", duration: 20 },
-            { stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Teasing the drop.", duration: 35 },
+            { stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Freeze right at the edge!", duration: 20 },
+            { stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Tease the drop.", duration: 35 },
             { stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops!", duration: 20 },
-            { stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE HOLD. Lock it in place. Await the final ruling.", duration: 35 }
+            { stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE HOLD. Lock it in place. Await the ruling.", duration: 35 }
         ];
 
         function launchMainEvent() {
             document.getElementById('game-sequence').classList.add('hidden');
             document.getElementById('main-event-screen').classList.remove('hidden');
             
-            // Set initial task text box info
             document.getElementById('task-text').innerHTML = 
-                `<strong>Attire Required:</strong> ${sessionResults.subAttire}<br>` +
+                `<strong>Attire:</strong> ${sessionResults.subAttire}<br>` +
                 `<strong>Permitted Action:</strong> ${sessionResults.domAction}<br>` +
-                `<strong>Special Rule:</strong> ${sessionResults.specialElement}`;
+                `<strong>Special Directive:</strong> ${sessionResults.specialElement}`;
 
             loadAction(0);
             startGlobalClock();
@@ -365,17 +422,17 @@
                   `- Permitted Action: ${sessionResults.domAction}\n` +
                   `- Special Element: ${sessionResults.specialElement}\n` +
                   `- Final Decree: ${sessionResults.step3Result}\n\n` +
-                  `Prepare any necessary tools, cleaning gear, or restraints right now.`);
+                  `Prepare any necessary tools, toys, or cleanup items right now.`);
         }
 
         function endGameSession() {
             clearInterval(globalTimer);
             clearInterval(actionTimer);
             document.getElementById('main-event-screen').innerHTML = `
-                <h3 class="prompt-title">Session Complete (10-Min Target Reached)</h3>
+                <h3 class="prompt-title" style="color: var(--accent-pink);">Session Complete</h3>
                 <p>Final Ruling: <strong>${sessionResults.step3Result}</strong></p>
                 <p><em>Accidental spillage note:</em> Tough luck—it is entirely up to the Mistress whether it is ignored or punished.</p>
-                <p>Execute final protocol.</p>
+                <p style="margin-top: 15px;">Execute final protocol.</p>
                 <button onclick="location.reload()">Start New Session</button>
             `;
         }
