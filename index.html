@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session Roulette & Cock Hero</title>
+    <title>Roulette Decree & Cock Hero 10-Min Engine</title>
     <style>
         body {
             font-family: monospace, sans-serif;
@@ -21,24 +21,36 @@
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            width: 500px;
+            width: 550px;
             text-align: center;
         }
         button {
             background-color: #bb86fc;
             color: #121212;
             border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
+            padding: 10px 20px;
+            font-size: 0.9rem;
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 15px;
+            margin: 5px;
             transition: background 0.2s;
         }
         button:hover {
             background-color: #3700b3;
             color: #ffffff;
+        }
+        .btn-secondary {
+            background-color: #03dac6;
+        }
+        .btn-secondary:hover {
+            background-color: #018786;
+        }
+        .btn-danger {
+            background-color: #cf6679;
+        }
+        .btn-danger:hover {
+            background-color: #b00020;
         }
         .display-box {
             margin-top: 20px;
@@ -50,7 +62,7 @@
         }
         .display-box p {
             margin: 8px 0;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         .hidden {
             display: none;
@@ -59,27 +71,34 @@
             color: #bb86fc;
             font-weight: bold;
         }
-        /* Main Event Styles */
-        #main-event-screen {
-            text-align: center;
-        }
+        /* Main Event UI Styles */
         .command-display {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #ff7597;
-            margin: 20px 0;
-            height: 60px;
+            margin: 15px 0;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: #121212;
             border-radius: 4px;
+            border: 1px solid #333;
+        }
+        .task-alert-box {
+            background: #3c1f1f;
+            border: 1px solid #cf6679;
+            color: #ffb8b8;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-size: 0.9rem;
         }
         .meter-container {
             width: 100%;
             background: #2d2d2d;
             border-radius: 4px;
-            height: 20px;
+            height: 18px;
             margin: 15px 0;
             overflow: hidden;
         }
@@ -87,14 +106,19 @@
             height: 100%;
             width: 0%;
             background: #bb86fc;
-            transition: width 0.5s linear;
+            transition: width 1s linear;
+        }
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Session Roulette & Game</h2>
+        <h2>Session Roulette & Cock Hero</h2>
         
         <!-- SETUP PHASE -->
         <div id="game-intro">
@@ -111,19 +135,28 @@
             </div>
         </div>
 
-        <!-- MAIN EVENT PHASE -->
+        <!-- MAIN EVENT PHASE (10 MINS) -->
         <div id="main-event-screen" class="hidden">
-            <h3 id="phase-title" class="prompt-title">Phase: Warmup</h3>
-            <p id="rule-reminder" style="font-size: 0.85rem; color: #aaa;"></p>
+            <h3 id="stage-title" class="prompt-title">Stage: Warm-Up</h3>
+            <p id="stage-instructions" style="font-size: 0.85rem; color: #ccc; min-height: 35px;"></p>
             
             <div class="command-display" id="live-command">STAND BY...</div>
+            
+            <!-- Automated or Triggered Roulette Tasks -->
+            <div class="task-alert-box" id="active-task-box">
+                <strong>Active Rule:</strong> <span id="task-text">None currently injected.</span>
+            </div>
             
             <div class="meter-container">
                 <div class="meter-bar" id="progress-bar"></div>
             </div>
             
-            <p id="timer-display">Time Remaining: 30s</p>
-            <button id="pause-btn" onclick="triggerSpecialEvent()">Special Decree Check</button>
+            <p id="timer-display" style="font-weight: bold;">Stage Time Left: 3:00</p>
+            
+            <div class="controls-row">
+                <button class="btn-secondary" onclick="previewDecree()">Mistress Prep Info</button>
+                <button class="btn-danger" onclick="skipStage()">Skip Stage ➔</button>
+            </div>
         </div>
 
     </div>
@@ -189,7 +222,7 @@
                 btn.textContent = "Roll Special Game Element";
             } else {
                 instruction.textContent = "Setup Complete. Rules locked.";
-                btn.textContent = "Launch Cock Hero Game";
+                btn.textContent = "Launch 10-Minute Cock Hero";
                 btn.onclick = launchMainEvent;
             }
         }
@@ -219,53 +252,112 @@
             updateStepPrompt();
         }
 
-        // --- MAIN EVENT LOGIC ---
-        let gameInterval;
-        let timeLeft = 30;
-        const commands = ["STROKE", "SLOW", "EDGE", "HOLD", "FAST"];
+        // --- 10-MINUTE MAIN EVENT ENGINE ---
+        let currentStageIndex = 0;
+        let stageTimer;
+        let stageSecondsLeft = 0;
+        let stageTotalSeconds = 0;
+
+        // Stage configurations spanning roughly 10 minutes total
+        const stages = [
+            {
+                name: "Stage 1: Warm-Up",
+                duration: 180, // 3 mins
+                instructions: "Slow, steady conditioning. Establish rhythm. Sub attire must be worn.",
+                commands: ["SLOW STROKE", "LIGHT TOUCH", "BUILD RHYTHM", "HOLD"]
+            },
+            {
+                name: "Stage 2: Build & Pace",
+                duration: 240, // 4 mins
+                instructions: "Increase pace. Introduce active Mistress interactions as prompted.",
+                commands: ["STEADY STROKE", "FASTER", "SPEED UP", "SLOW DOWN", "EDGE PREP"]
+            },
+            {
+                name: "Stage 3: Peak Tease & Edging",
+                duration: 180, // 3 mins
+                instructions: "Intense teasing, multiple potential edges. Spillages ignored or punished per decree.",
+                commands: ["EDGE NOW", "HOLD EDGE", "SLOW DOWN", "FAST", "DO NOT COME"]
+            }
+        ];
 
         function launchMainEvent() {
             document.getElementById('game-sequence').classList.add('hidden');
             document.getElementById('main-event-screen').classList.remove('hidden');
-            
-            // Display active rules reminder on screen
-            document.getElementById('rule-reminder').textContent = 
-                `Decree: ${sessionResults.step3Result} | Action: ${sessionResults.domAction}`;
-
-            startMainLoop();
+            loadStage(0);
         }
 
-        function startMainLoop() {
-            let progress = 0;
-            gameInterval = setInterval(() => {
-                timeLeft--;
-                progress += (100 / 30);
-                
-                document.getElementById('progress-bar').style.width = progress + '%';
-                document.getElementById('timer-display').textContent = `Time Remaining: ${timeLeft}s`;
+        function loadStage(index) {
+            if (index >= stages.length) {
+                endGameSession();
+                return;
+            }
+            currentStageIndex = index;
+            const stage = stages[currentStageIndex];
+            
+            document.getElementById('stage-title').textContent = stage.name;
+            document.getElementById('stage-instructions').textContent = stage.instructions;
+            
+            stageSecondsLeft = stage.duration;
+            stageTotalSeconds = stage.duration;
+            
+            runStageLoop();
+        }
 
-                // Randomly change commands
-                if (timeLeft % 5 === 0) {
-                    document.getElementById('live-command').textContent = getRandomItem(commands);
+        function runStageLoop() {
+            clearInterval(stageTimer);
+            let progress = 0;
+
+            stageTimer = setInterval(() => {
+                stageSecondsLeft--;
+                progress = ((stageTotalSeconds - stageSecondsLeft) / stageTotalSeconds) * 100;
+
+                document.getElementById('progress-bar').style.width = progress + '%';
+                
+                let mins = Math.floor(stageSecondsLeft / 60);
+                let secs = stageSecondsLeft % 60;
+                document.getElementById('timer-display').textContent = 
+                    `Stage Time Left: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+                // Cycle commands dynamically
+                const stage = stages[currentStageIndex];
+                if (stageSecondsLeft % 15 === 0) {
+                    document.getElementById('live-command').textContent = getRandomItem(stage.commands);
                 }
 
-                if (timeLeft <= 0) {
-                    clearInterval(gameInterval);
-                    endGameSession();
+                // Inject the roulette tasks automatically into the middle stages
+                if (stageSecondsLeft === Math.floor(stageTotalSeconds / 2)) {
+                    document.getElementById('task-text').textContent = 
+                        `MISTRESS ACTION REQUIRED: ${sessionResults.domAction} + ${sessionResults.specialElement}`;
+                }
+
+                if (stageSecondsLeft <= 0) {
+                    clearInterval(stageTimer);
+                    loadStage(currentStageIndex + 1);
                 }
             }, 1000);
         }
 
-        function triggerSpecialEvent() {
-            alert(`SPECIAL TRIGGER ACTIVE: ${sessionResults.specialElement}\nExecute rule now, Mistress.`);
+        function skipStage() {
+            clearInterval(stageTimer);
+            loadStage(currentStageIndex + 1);
+        }
+
+        function previewDecree() {
+            alert(`MISTRESS PREPARATION INFO:\n\n` +
+                  `- Sub Attire: ${sessionResults.subAttire}\n` +
+                  `- Permitted Action: ${sessionResults.domAction}\n` +
+                  `- Special Element: ${sessionResults.specialElement}\n` +
+                  `- Final Decree: ${sessionResults.step3Result}\n\n` +
+                  `Prepare any necessary tools or cleanup items now.`);
         }
 
         function endGameSession() {
             document.getElementById('main-event-screen').innerHTML = `
-                <h3 class="prompt-title">Session Complete</h3>
+                <h3 class="prompt-title">Session Complete (10-Min Target Reached)</h3>
                 <p>Final Ruling: <strong>${sessionResults.step3Result}</strong></p>
-                <p>Execute the decree accordingly.</p>
-                <button onclick="location.reload()">Play Again</button>
+                <p>If an accidental spillage occurred, the Mistress decides punishment or ignore.</p>
+                <p>Cleanup protocol active if needed.</p>
+                <button onclick="location.reload()">Start New Session</button>
             `;
         }
     </script>
