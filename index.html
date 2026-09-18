@@ -331,9 +331,9 @@
             <!-- Edge Logging Button (Appears above row when edge rule is active) -->
             <button class="btn-secondary hidden" onclick="logUserEdge()" id="edge-log-btn" style="margin-bottom: 6px; font-size: 0.75rem; padding: 8px;">Log Edge (+1)</button>
 
-            <!-- 3-Button Horizontal Layout: Dom Prep (Left) | Skip Section (Middle) | Skip Action (Right) -->
+            <!-- 3-Button Horizontal Layout: Mistress Action (Left) | Skip Section (Middle) | Skip Action (Right) -->
             <div class="controls-grid">
-                <button class="btn-secondary" onclick="previewDecree()">Mistress Prep</button>
+                <button class="btn-secondary" onclick="triggerMistressAction()">Mistress Action</button>
                 <button class="btn-danger" onclick="skipEntireSection()">Skip Section</button>
                 <button class="btn-warning" onclick="skipCurrentAction()">Skip Action</button>
             </div>
@@ -369,6 +369,38 @@
             "Immediate pain play punishment trigger", 
             "Forced humiliation speech check"
         ];
+
+        // Section-Specific Random Mistress Actions for Boredom / Flavor Switches
+        const mistressActionPools = {
+            // Stage 0: Conditioning (Boundaries & Mind Games)
+            0: [
+                "Boundary Test: Force sub to repeat aloud: 'My body and arousal belong entirely to Mistress.'",
+                "Posture Check: Sub must lock eyes with you without blinking or moving for 10 seconds.",
+                "Permission Rule: Sub must ask out loud and wait 3 full seconds before every stroke change.",
+                "Mental Anchor: Remind the sub of their absolute submission with a firm grip on the chin."
+            ],
+            // Stage 1: Escalation (Rougher & More Degrading)
+            1: [
+                "Degradation: Remind the sub how pathetic they look right now struggling to keep pace.",
+                "Impact Play: Deliver 2 sharp slaps or pinches to the thighs to spike their adrenaline.",
+                "Verbal Taunt: Force the sub to beg for permission to speed up, then deny them for 10 seconds.",
+                "Aggressive Control: Grab a handful of hair or force their head back while they stroke."
+            ],
+            // Stage 2: Edging (Force Tasting, Humiliation, Teasing)
+            2: [
+                "Force Tasting: Sub must taste their own precum off your fingers or their own hand immediately.",
+                "Humiliation: Force the sub to confess out loud how close they are to completely losing control.",
+                "Cruel Tease: Stop all motion instantly, force sub to hold an edge position, and mock their impatience.",
+                "Verbal Break: Command the sub to thank you for every single spike of frustration."
+            ],
+            // Stage 3: Final Decree / Ending (Ideas before release)
+            3: [
+                "Finale Prep: Give a sharp spank to mark the end of the suffering before issuing the final decree.",
+                "Aftercare Tease: Whisper a filthy promise of what will happen next time before letting them clean up.",
+                "Commanded Cleanup: Force the sub to clean up any mess entirely on their own hands and knees.",
+                "Final Submission: Lock eyes, demand a final low bow of thanks, and release them from service."
+            ]
+        };
 
         let currentStep = 0;
         let sessionResults = {
@@ -630,13 +662,11 @@
             loadAction(nextIndex);
         }
 
-        function previewDecree() {
-            alert(`MISTRESS PREPARATION INFO:\n\n` +
-                  `- Sub Attire: ${sessionResults.subAttire}\n` +
-                  `- Permitted Action: ${sessionResults.domAction}\n` +
-                  `- Special Element: ${sessionResults.specialElement}\n` +
-                  `- Final Decree: ${sessionResults.step3Result}\n\n` +
-                  `Prepare any necessary tools, toys, or cleanup items right now.`);
+        // Pulls a random stage-tailored instruction when the Dom taps "Mistress Action"
+        function triggerMistressAction() {
+            const pool = mistressActionPools[currentSectionId] || mistressActionPools[0];
+            const randomPrompt = getRandomItem(pool);
+            alert(`MISTRESS DIRECTIVE (Stage ${currentSectionId + 1}):\n\n${randomPrompt}`);
         }
 
         function endGameSession() {
