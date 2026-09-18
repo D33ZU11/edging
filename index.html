@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette Decree & Session Generator</title>
+    <title>Session Roulette & Game Setup</title>
     <style>
         body {
             font-family: monospace, sans-serif;
@@ -21,34 +21,43 @@
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            width: 400px;
+            width: 450px;
             text-align: center;
         }
         button {
             background-color: #bb86fc;
             color: #121212;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-size: 1rem;
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
             margin-top: 15px;
+            transition: background 0.2s;
         }
         button:hover {
             background-color: #3700b3;
             color: #ffffff;
         }
-        .result-box {
+        .display-box {
             margin-top: 20px;
             text-align: left;
             background: #2d2d2d;
             padding: 15px;
             border-radius: 4px;
-            min-height: 120px;
+            min-height: 100px;
         }
-        .result-box p {
+        .display-box p {
             margin: 8px 0;
+            font-size: 0.95rem;
+        }
+        .hidden {
+            display: none;
+        }
+        .prompt-title {
+            color: #bb86fc;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -56,61 +65,115 @@
 
     <div class="container">
         <h2>Session Roulette</h2>
-        <p>Determine the parameters for the upcoming session.</p>
-        <button onclick="spinRoulette()">Spin Roulette</button>
-        
-        <div class="result-box" id="output">
-            <p><em>Click spin to generate parameters...</em></p>
+        <div id="game-intro">
+            <p>Ready to establish the rules of engagement?</p>
+            <button onclick="startSequence()">Begin Setup</button>
+        </div>
+
+        <div id="game-sequence" class="hidden">
+            <p id="instruction-text" class="prompt-title"></p>
+            <button id="action-btn" onclick="nextStep()">Press to Roll</button>
+            
+            <div class="display-box" id="results-log">
+                <p><em>Waiting for rolls...</em></p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Data arrays for the roulette
-        const subAttire = [
+        // Data pools for the 4 steps
+        const subAttirePool = [
             "Fully strapped / harness", 
             "Completely bare / exposed", 
             "Locked in chastity", 
             "Collared and restrained"
         ];
 
-        const domAttire = [
-            "Full leather / latex gear", 
-            "Minimalist control gear", 
-            "Casual dominance", 
-            "Strict uniform"
+        const domActionsPool = [
+            "Choke the sub", 
+            "Make them suck something", 
+            "Spit at/on them", 
+            "Slap / impact play"
         ];
 
-        const decrees = [
+        const step3Pool = [
             "Allowed 1 full orgasm", 
             "Strictly ruined / denied", 
             "Edge-fed only (permitted at very end)", 
             "Edged 3 times then permitted"
         ];
 
-        const specialTriggers = [
-            "Choking interval", 
-            "Forced oral task", 
-            "Impact / pain play prompt", 
-            "Absolute stillness command"
+        const specialGameElementPool = [
+            "Mandatory absolute stillness command during peak intensity", 
+            "Forced oral break every 2 minutes", 
+            "Sudden pain play interval trigger", 
+            "Forced humiliation speech check"
         ];
+
+        let currentStep = 0;
+        let sessionResults = {
+            subAttire: "",
+            domAction: "",
+            step3Result: "",
+            specialElement: ""
+        };
+
+        function startSequence() {
+            document.getElementById('game-intro').classList.add('hidden');
+            document.getElementById('game-sequence').classList.remove('hidden');
+            updateStepPrompt();
+        }
+
+        function updateStepPrompt() {
+            const instruction = document.getElementById('instruction-text');
+            const btn = document.getElementById('action-btn');
+
+            if (currentStep === 0) {
+                instruction.textContent = "Mistress, you're up first. Press to determine what your sub must wear:";
+                btn.textContent = "Roll Sub's Attire";
+            } else if (currentStep === 1) {
+                instruction.textContent = "Sub's turn to press. Let's see what the Mistress is permitted to do:";
+                btn.textContent = "Roll Mistress Action";
+            } else if (currentStep === 2) {
+                instruction.textContent = "Third press: Determining the session outcome/limit:";
+                btn.textContent = "Roll Session Decree";
+            } else if (currentStep === 3) {
+                instruction.textContent = "Final press: Unlocking the Mistress's special game element for the main event:";
+                btn.textContent = "Roll Special Game Element";
+            } else {
+                instruction.textContent = "Setup Complete. Ready for the Main Event.";
+                btn.textContent = "Start Cock Hero Game";
+                btn.onclick = launchMainEvent;
+            }
+        }
 
         function getRandomItem(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        function spinRoulette() {
-            const sub = getRandomItem(subAttire);
-            const dom = getRandomItem(domAttire);
-            const decree = getRandomItem(decree);
-            const trigger = getRandomItem(specialTriggers);
+        function nextStep() {
+            const logDiv = document.getElementById('results-log');
 
-            const outputDiv = document.getElementById('output');
-            outputDiv.innerHTML = `
-                <p><strong>Sub Attire:</strong> ${sub}</p>
-                <p><strong>Dom Attire:</strong> ${dom}</p>
-                <p><strong>Session Decree:</strong> ${decree}</p>
-                <p><strong>Active Trigger:</strong> ${trigger}</p>
-            `;
+            if (currentStep === 0) {
+                sessionResults.subAttire = getRandomItem(subAttirePool);
+                logDiv.innerHTML = `<p><strong>Sub's Attire:</strong> ${sessionResults.subAttire}</p>`;
+            } else if (currentStep === 1) {
+                sessionResults.domAction = getRandomItem(domActionsPool);
+                logDiv.innerHTML += `<p><strong>Mistress Action:</strong> ${sessionResults.domAction}</p>`;
+            } else if (currentStep === 2) {
+                sessionResults.step3Result = getRandomItem(step3Pool);
+                logDiv.innerHTML += `<p><strong>Session Decree:</strong> ${sessionResults.step3Result}</p>`;
+            } else if (currentStep === 3) {
+                sessionResults.specialElement = getRandomItem(specialGameElementPool);
+                logDiv.innerHTML += `<p><strong>Special Game Element:</strong> ${sessionResults.specialElement}</p>`;
+            }
+
+            currentStep++;
+            updateStepPrompt();
+        }
+
+        function launchMainEvent() {
+            alert("Transitioning to the Cock Hero main event screen! (Next phase to build)");
         }
     </script>
 
