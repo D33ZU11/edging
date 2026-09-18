@@ -61,12 +61,12 @@
             background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
             color: white;
             border: none;
-            padding: 14px 24px;
-            font-size: 1rem;
+            padding: 12px 20px;
+            font-size: 0.95rem;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            margin: 8px 0;
+            margin: 6px 0;
             width: 100%;
             box-shadow: 0 4px 15px rgba(255, 42, 117, 0.4);
             transition: transform 0.1s, filter 0.2s;
@@ -91,6 +91,12 @@
         .btn-danger {
             background: linear-gradient(135deg, #ff0055, #880022);
             box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ff8800, #cc5500);
+            box-shadow: 0 4px 15px rgba(255, 136, 0, 0.3);
+            color: #fff;
         }
 
         .display-box {
@@ -120,13 +126,44 @@
             margin-bottom: 5px;
         }
 
+        /* Section Tracker Menu */
+        .section-navigator {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+            margin-bottom: 10px;
+            background: rgba(0,0,0,0.4);
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sec-pill {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            padding: 4px 6px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            flex: 1;
+            text-align: center;
+        }
+
+        .sec-pill.active {
+            background: rgba(255, 42, 117, 0.2);
+            border-color: var(--accent-pink);
+            color: #fff;
+            font-weight: bold;
+        }
+
         /* Main Event Mobile UI */
         .command-display {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 900;
             color: #fff;
-            margin: 10px 0;
-            min-height: 55px;
+            margin: 8px 0;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -144,18 +181,18 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            margin: 15px 0;
+            margin: 10px 0;
             background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 12px;
+            padding: 8px;
+            border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .vert-bar-track {
-            width: 24px;
-            height: 140px;
+            width: 20px;
+            height: 120px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            border-radius: 10px;
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -169,7 +206,6 @@
             height: 0%;
             background: linear-gradient(to top, var(--accent-purple), var(--accent-pink));
             box-shadow: 0 0 15px var(--accent-pink);
-            /* Transition speed is dynamically controlled via JS to match BPM */
             transition: height linear; 
         }
 
@@ -181,7 +217,7 @@
         }
 
         .action-timer {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--accent-teal);
             margin-top: 4px;
             font-weight: bold;
@@ -192,10 +228,10 @@
             background: rgba(255, 0, 85, 0.15);
             border: 1px solid var(--danger);
             color: #ffb8b8;
-            padding: 10px;
+            padding: 8px 10px;
             border-radius: 8px;
             margin: 8px 0;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             text-align: left;
         }
 
@@ -204,7 +240,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             height: 8px;
-            margin: 8px 0;
+            margin: 6px 0;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -216,16 +252,17 @@
             transition: width 1s linear;
         }
 
-        .controls-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-top: 8px;
         }
 
-        .controls-row button {
+        .controls-grid button {
             margin: 0;
-            font-size: 0.8rem;
-            padding: 10px 8px;
+            font-size: 0.75rem;
+            padding: 9px 4px;
         }
     </style>
 </head>
@@ -251,8 +288,17 @@
 
         <!-- MAIN EVENT PHASE -->
         <div id="main-event-screen" class="hidden">
-            <h3 id="stage-title" class="prompt-title" style="color: var(--accent-pink); margin: 0 0 3px 0;">Stage 1</h3>
-            <p id="stage-instructions" style="font-size: 0.78rem; color: var(--text-muted); margin: 0 0 8px 0;"></p>
+            
+            <!-- Section Tracker Display -->
+            <div class="section-navigator" id="sec-nav-pills">
+                <div class="sec-pill" id="pill-0">1. Cond.</div>
+                <div class="sec-pill" id="pill-1">2. Escalat.</div>
+                <div class="sec-pill" id="pill-2">3. Edging</div>
+                <div class="sec-pill" id="pill-3">4. Decree</div>
+            </div>
+
+            <h3 id="stage-title" class="prompt-title" style="color: var(--accent-pink); margin: 0 0 2px 0;">Stage 1</h3>
+            <p id="stage-instructions" style="font-size: 0.75rem; color: var(--text-muted); margin: 0 0 6px 0;"></p>
             
             <div class="command-display" id="live-command">PREPARING...</div>
             
@@ -262,12 +308,12 @@
                     <div class="vert-bar-fill" id="vert-bar"></div>
                 </div>
                 <div class="metronome-info">
-                    <span id="tempo-label" style="font-size: 0.8rem; font-weight: bold; color: #fff; letter-spacing: 0.5px;">TEMPO: SYNCING</span>
+                    <span id="tempo-label" style="font-size: 0.75rem; font-weight: bold; color: #fff; letter-spacing: 0.5px;">TEMPO: SYNCING</span>
                     <div class="action-timer" id="action-timer-display">Action: 0s</div>
                 </div>
             </div>
 
-            <!-- Automated or Triggered Roulette Tasks -->
+            <!-- Active Directives & Edge Counter Status -->
             <div class="task-alert-box" id="active-task-box">
                 <strong>Active Directives:</strong><br>
                 <span id="task-text">Awaiting phase triggers...</span>
@@ -277,11 +323,13 @@
                 <div class="meter-bar" id="progress-bar"></div>
             </div>
             
-            <p id="total-timer-display" style="font-weight: bold; font-size: 0.8rem; color: var(--text-muted); margin: 4px 0;">Total Session Time Left: 10:00</p>
+            <p id="total-timer-display" style="font-weight: bold; font-size: 0.78rem; color: var(--text-muted); margin: 3px 0;">Total Session Time Left: 10:00</p>
             
-            <div class="controls-row">
+            <div class="controls-grid">
                 <button class="btn-secondary" onclick="previewDecree()">Mistress Prep</button>
-                <button class="btn-danger" onclick="skipStage()">Skip Action ➔</button>
+                <button class="btn-warning" onclick="skipCurrentAction()">Skip Action ➔</button>
+                <button class="btn-danger" onclick="skipEntireSection()">Skip Section ➔</button>
+                <button class="btn-secondary" onclick="logUserEdge()" id="edge-log-btn" style="display:none;">Log Edge (+1)</button>
             </div>
         </div>
 
@@ -378,60 +426,116 @@
             updateStepPrompt();
         }
 
-        // --- 10-MIN ENGINE WITH VERTICAL PUMPING METRONOME ---
+        // --- 10-MIN ENGINE WITH SECTION SKIPPING & DYNAMIC EDGING RULES ---
         let totalSessionSeconds = 600;
         let globalTimer;
         let currentActionIndex = 0;
         let actionTimeLeft = 0;
         let vertPumpInterval = null;
+        let currentSectionId = 0;
+        let requiredEdgeCount = 0;
+        let loggedEdges = 0;
 
+        // Structured into 4 distinct sections for clear user tracking
         const actionSequence = [
-            { stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely any friction.", duration: 40, bpm: 35, instructions: "Match pace: Up and down with the bar." },
-            { stageName: "Stage 1: Conditioning", text: "HALT! Absolute stillness. Hands off completely.", duration: 20, bpm: 0, instructions: "Freeze completely. Do not move." },
-            { stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every inch.", duration: 45, bpm: 40, instructions: "Drag it out smoothly." },
-            { stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Do not touch.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
-            { stageName: "Stage 1: Conditioning", text: "Medium steady pace. Building heat.", duration: 60, bpm: 75, instructions: "Steady mid-speed friction." },
+            // Section 0: Conditioning (Indices 0 to 4)
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Slow, agonizingly long strokes. Barely any friction.", duration: 45, bpm: 35, instructions: "Match pace: Up and down with the bar." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "HALT! Absolute stillness. Hands off completely.", duration: 25, bpm: 0, instructions: "Freeze completely. Do not move." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Resume ultra-slow gliding strokes. Count every inch.", duration: 45, bpm: 40, instructions: "Drag it out smoothly." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Brief stop. Deep breath. Do not touch.", duration: 15, bpm: 0, instructions: "Stillness protocol active." },
+            { section: 0, stageName: "Stage 1: Conditioning", text: "Medium steady pace. Building heat.", duration: 60, bpm: 75, instructions: "Steady mid-speed friction." },
 
-            { stageName: "Stage 2: Escalation", text: "Pick up the speed. Firm, rhythmic friction building fast.", duration: 40, bpm: 100, instructions: "Consistent faster tempo." },
-            { stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Drop your hand. Wait and stare.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
-            { stageName: "Stage 2: Escalation", text: "Fast short burst of speed—then instant stop!", duration: 15, bpm: 135, instructions: "Rapid bursts on the bar!" },
-            { stageName: "Stage 2: Escalation", text: "Slow down immediately. Torturous, dragging strokes.", duration: 50, bpm: 35, instructions: "Drop back to agonizing slow." },
-            { stageName: "Stage 2: Escalation", text: "Rhythmic mid-speed stroking. Stay controlled.", duration: 50, bpm: 80, instructions: "Find the groove." },
-            { stageName: "Stage 2: Escalation", text: "Hold the shaft completely still. Let the urge spike.", duration: 20, bpm: 0, instructions: "No motion allowed." },
+            // Section 1: Escalation (Indices 5 to 10)
+            { section: 1, stageName: "Stage 2: Escalation", text: "Pick up the speed. Firm, rhythmic friction building fast.", duration: 40, bpm: 100, instructions: "Consistent faster tempo." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "SUDDEN FREEZE! Drop your hand. Wait and stare.", duration: 25, bpm: 0, instructions: "Instant freeze command." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Fast short burst of speed—then instant stop!", duration: 15, bpm: 135, instructions: "Rapid bursts on the bar!" },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Slow down immediately. Torturous, dragging strokes.", duration: 50, bpm: 35, instructions: "Drop back to agonizing slow." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Rhythmic mid-speed stroking. Stay controlled.", duration: 50, bpm: 80, instructions: "Find the groove." },
+            { section: 1, stageName: "Stage 2: Escalation", text: "Hold the shaft completely still. Let the urge spike.", duration: 20, bpm: 0, instructions: "No motion allowed." },
 
-            { stageName: "Stage 3: Peak & Edging", text: "Fast, aggressive strokes pushing right to the brink!", duration: 30, bpm: 130, instructions: "Hard, fast rhythm!" },
-            { stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Freeze right at the edge!", duration: 20, bpm: 0, instructions: "Hold the edge without spilling." },
-            { stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Tease the drop.", duration: 35, bpm: 30, instructions: "Barely touching to survive the drop." },
-            { stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops!", duration: 20, bpm: 150, instructions: "Intense peak tempo." },
-            { stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE HOLD. Lock it in place. Await the ruling.", duration: 35, bpm: 0, instructions: "Final stillness test." }
+            // Section 2: Peak & Edging (Indices 11 to 15)
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Fast, aggressive strokes pushing right to the brink!", duration: 35, bpm: 130, instructions: "Hard, fast rhythm!" },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "EDGE AND HOLD! Freeze right at the edge!", duration: 25, bpm: 0, instructions: "Hold the edge without spilling." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Cruel slow down right after the edge. Tease the drop.", duration: 35, bpm: 30, instructions: "Barely touching to survive the drop." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "Rapid-fire fast bursts with sudden dead stops!", duration: 25, bpm: 150, instructions: "Intense peak tempo." },
+            { section: 2, stageName: "Stage 3: Peak & Edging", text: "FINAL EDGE BUILD. Push hard and prepare your edges.", duration: 40, bpm: 140, instructions: "Comply with rule requirements." },
+
+            // Section 3: Final Decree & Ruling (Index 16)
+            { section: 3, stageName: "Stage 4: Final Decree", text: "Session finale. Awaiting final ruling execution.", duration: 15, bpm: 0, instructions: "Execution phase." }
         ];
 
         function launchMainEvent() {
             document.getElementById('game-sequence').classList.add('hidden');
             document.getElementById('main-event-screen').classList.remove('hidden');
             
+            // Factor rule requirements from roll results
+            if (sessionResults.step3Result.includes("Edged 3 times")) {
+                requiredEdgeCount = 3;
+            } else if (sessionResults.step3Result.includes("Edge-fed")) {
+                requiredEdgeCount = 1;
+            } else {
+                requiredEdgeCount = 0;
+            }
+
+            updateTaskBoxText();
+            loadAction(0);
+            startGlobalClock();
+        }
+
+        function updateTaskBoxText() {
+            let edgeStatus = requiredEdgeCount > 0 ? `<br><strong>Edge Requirement:</strong> ${loggedEdges}/${requiredEdgeCount} completed` : "";
             document.getElementById('task-text').innerHTML = 
                 `<strong>Attire:</strong> ${sessionResults.subAttire}<br>` +
                 `<strong>Permitted Action:</strong> ${sessionResults.domAction}<br>` +
-                `<strong>Special Directive:</strong> ${sessionResults.specialElement}`;
+                `<strong>Special Directive:</strong> ${sessionResults.specialElement}` +
+                edgeStatus;
 
-            loadAction(0);
-            startGlobalClock();
+            // Show edge log button if an edge rule is active during late stages
+            if (requiredEdgeCount > 0 && currentSectionId >= 2) {
+                document.getElementById('edge-log-btn').style.display = 'block';
+            } else {
+                document.getElementById('edge-log-btn').style.display = 'none';
+            }
+        }
+
+        function logUserEdge() {
+            loggedEdges++;
+            updateTaskBoxText();
+            if (loggedEdges >= requiredEdgeCount) {
+                alert("Edge requirement fulfilled. Awaiting final decree execution.");
+            }
         }
 
         function startGlobalClock() {
             globalTimer = setInterval(() => {
                 if (totalSessionSeconds > 0) {
                     totalSessionSeconds--;
-                    let mins = Math.floor(totalSessionSeconds / 60);
-                    let secs = totalSessionSeconds % 60;
-                    document.getElementById('total-timer-display').textContent = 
-                        `Total Session Time Left: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
-
-                    let progressPercent = ((600 - totalSessionSeconds) / 600) * 100;
-                    document.getElementById('progress-bar').style.width = progressPercent + '%';
+                    updateTimerDisplay();
                 }
             }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            let mins = Math.floor(totalSessionSeconds / 60);
+            let secs = totalSessionSeconds % 60;
+            document.getElementById('total-timer-display').textContent = 
+                `Total Session Time Left: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+            let progressPercent = ((600 - totalSessionSeconds) / 600) * 100;
+            document.getElementById('progress-bar').style.width = progressPercent + '%';
+        }
+
+        function updateSectionPills(secId) {
+            currentSectionId = secId;
+            for (let i = 0; i < 4; i++) {
+                let pill = document.getElementById(`pill-${i}`);
+                if (i === secId) {
+                    pill.classList.add('active');
+                } else {
+                    pill.classList.remove('active');
+                }
+            }
+            updateTaskBoxText();
         }
 
         function loadAction(index) {
@@ -442,6 +546,7 @@
             currentActionIndex = index;
             const currentAction = actionSequence[currentActionIndex];
 
+            updateSectionPills(currentAction.section);
             document.getElementById('stage-title').textContent = currentAction.stageName;
             document.getElementById('stage-instructions').textContent = currentAction.instructions;
             document.getElementById('live-command').textContent = currentAction.text;
@@ -478,17 +583,13 @@
                 return;
             }
 
-            // Calculate cycle speed based on BPM (Time for one full up/down stroke)
             const strokeDurationMs = (60 / bpm) * 1000;
             tempoLabel.textContent = `TEMPO: ${bpm} BPM`;
 
-            // Apply dynamic CSS transition timing to match the stroke tempo
             vertBar.style.transition = `height ${strokeDurationMs / 2}ms ease-in-out`;
 
-            let isUp = false;
-            // Immediate first motion
+            let isUp = true;
             vertBar.style.height = '100%';
-            isUp = true;
 
             vertPumpInterval = setInterval(() => {
                 if (isUp) {
@@ -501,10 +602,41 @@
             }, strokeDurationMs / 2);
         }
 
-        function skipStage() {
+        // --- SKIPPING CONTROLS ---
+
+        // Skips only the current action item within the section
+        function skipCurrentAction() {
             clearInterval(actionTimer);
             clearInterval(vertPumpInterval);
             loadAction(currentActionIndex + 1);
+        }
+
+        // Skips the entire remaining section, recalculating and lopping off remaining time so timer hits 0 cleanly
+        function skipEntireSection() {
+            clearInterval(actionTimer);
+            clearInterval(vertPumpInterval);
+
+            const currentSec = actionSequence[currentActionIndex].section;
+            
+            // Find the index of the first action belonging to the next section
+            let nextIndex = actionSequence.findIndex(item => item.section > currentSec);
+
+            if (nextIndex === -1) {
+                // If we are already in the last section, jump straight to finish
+                endGameSession();
+                return;
+            }
+
+            // Calculate how many seconds were left in all skipped actions and subtract from global timer
+            let skippedSecondsSum = 0;
+            for (let i = currentActionIndex; i < nextIndex; i++) {
+                skippedSecondsSum += actionSequence[i].duration;
+            }
+
+            totalSessionSeconds = Math.max(0, totalSessionSeconds - skippedSecondsSum);
+            updateTimerDisplay();
+
+            loadAction(nextIndex);
         }
 
         function previewDecree() {
@@ -520,9 +652,13 @@
             clearInterval(globalTimer);
             clearInterval(actionTimer);
             clearInterval(vertPumpInterval);
+            totalSessionSeconds = 0;
+            updateTimerDisplay();
+
             document.getElementById('main-event-screen').innerHTML = `
                 <h3 class="prompt-title" style="color: var(--accent-pink);">Session Complete</h3>
                 <p>Final Ruling: <strong>${sessionResults.step3Result}</strong></p>
+                <p><em>Edge Check:</em> Completed ${loggedEdges} of ${requiredEdgeCount} required edges.</p>
                 <p><em>Accidental spillage note:</em> Tough luck—it is entirely up to the Mistress whether it is ignored or punished.</p>
                 <p style="margin-top: 15px;">Execute final protocol.</p>
                 <button onclick="location.reload()">Start New Session</button>
